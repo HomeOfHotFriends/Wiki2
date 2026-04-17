@@ -12,64 +12,293 @@
       --muted: #5b564b;
       --rule: #cfc6b8;
       --accent: #3e5c4a;
-      --accent-2: #846b3f;
-      --soft: #ece4d7;
-      --quote: #f0eadf;
-      --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
-      --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, serif;
-      --sans: Inter, "Helvetica Neue", Arial, sans-serif;
-    }
+      <style>
+        :root {
+          --bg: #eae3d2;
+          --paper: #f7f3e7;
+          --ink: #2a1c0f;
+          --muted: #7a6a4f;
+          --rule: #b6a47a;
+          --accent: #4b3e2e;
+          --accent-2: #a67c52;
+          --soft: #e2d6c2;
+          --quote: #f3ecd9;
+          --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+          --serif: "EB Garamond", "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, serif;
+          --sans: Inter, "Helvetica Neue", Arial, sans-serif;
+          --ornament: '❦';
+        }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background:
-        linear-gradient(to bottom, rgba(62,92,74,.04), rgba(62,92,74,0) 18rem),
-        repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(24,24,24,.025) 32px),
-        var(--bg);
-      color: var(--ink);
-      font-family: var(--serif);
-      line-height: 1.55;
-    }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+          margin: 0;
+          background: var(--bg);
+          color: var(--ink);
+          font-family: var(--serif);
+          line-height: 1.7;
+          background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4c/Old_book_paper_texture.jpg');
+          background-size: cover;
+        }
 
-    .page {
-      width: min(1100px, calc(100vw - 2rem));
-      margin: 1rem auto 4rem;
-      background: rgba(251,248,242,.9);
-      backdrop-filter: blur(2px);
-      border: 1px solid rgba(24,24,24,.08);
-      box-shadow: 0 20px 70px rgba(0,0,0,.08);
-    }
+        .page {
+          width: min(1200px, calc(100vw - 2rem));
+          margin: 2rem auto 4rem;
+          background: rgba(247,243,231,0.97);
+          border: 2px solid var(--rule);
+          box-shadow: 0 24px 80px rgba(80,60,30,0.13);
+          border-radius: 12px;
+          position: relative;
+          padding-bottom: 2rem;
+        }
 
-    <header>
-      <h1>Anti-OOPedipus: A Coherent Treatise</h1>
-    </header>
-    <main>
-      <!-- ...existing content... -->
-      <section id="rhizomatic-branches">
-        <h2>Further Branches: Rhizomatic Iterations</h2>
-        <p>This treatise is not a closed book. It is a node in a living network. New books and expansions grow from here:</p>
-        <ul>
-          <li><a href="index.html">Return to Everything (Root)</a></li>
-          <li><a href="2026-ai-index-report-fictitious.html">AI Index Report (Fictional)</a></li>
-          <li><a href="reozematic.html">Reozematic: New Book</a></li>
-          <li><a href="rhizo.html">Rhizo: Emergent Connections</a></li>
-        </ul>
-        <p>To continue the rhizomatic process, add your own branch: create a new section, link to another book, or start a new file. The treatise grows as you iterate.</p>
-      </section>
+        header {
+          text-align: center;
+          padding: 2.5rem 2rem 1.5rem;
+          border-bottom: 2px solid var(--rule);
+          background: linear-gradient(to bottom, var(--paper) 80%, transparent);
+          position: relative;
+        }
+        header:before {
+          content: var(--ornament);
+          font-size: 2.5rem;
+          color: var(--accent-2);
+          position: absolute;
+          left: 2rem;
+          top: 1.2rem;
+          opacity: 0.3;
+        }
+        header:after {
+          content: var(--ornament);
+          font-size: 2.5rem;
+          color: var(--accent-2);
+          position: absolute;
+          right: 2rem;
+          top: 1.2rem;
+          opacity: 0.3;
+          transform: scaleX(-1);
+        }
+        .kicker {
+          font: 0.9rem/1.2 var(--mono);
+          text-transform: uppercase;
+          letter-spacing: .18em;
+          color: var(--accent);
+          margin-bottom: 1.5rem;
+        }
+        h1, h2, h3 {
+          font-family: var(--serif);
+          line-height: 1.1;
+          margin: 0;
+          letter-spacing: -.02em;
+        }
+        h1 {
+          font-size: clamp(3.2rem, 7vw, 6rem);
+          max-width: 14ch;
+          margin: 0 auto 1.2rem;
+          text-shadow: 0 2px 0 #e2d6c2;
+        }
+        .subtitle {
+          margin-top: 1.2rem;
+          max-width: 48rem;
+          font-size: 1.25rem;
+          color: var(--muted);
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .deck {
+          display: flex;
+          flex-direction: row;
+          gap: 2.5rem;
+          padding: 2rem 4rem 2.5rem;
+          border-bottom: 1.5px solid var(--rule);
+          background: var(--soft);
+          border-radius: 0 0 12px 12px;
+        }
+        .deck .lead {
+          font-size: 1.18rem;
+          flex: 2;
+        }
+        .meta {
+          background: var(--paper);
+          border: 1.5px solid var(--rule);
+          padding: 1.2rem 1.2rem 1.3rem;
+          font-size: 1.02rem;
+          flex: 1;
+          border-radius: 8px;
+        }
+        .meta strong {
+          font-family: var(--sans);
+          font-size: .92rem;
+          text-transform: uppercase;
+          letter-spacing: .08em;
+          display: block;
+          margin-bottom: .45rem;
+          color: var(--accent);
+        }
+        main {
+          display: flex;
+          flex-direction: row;
+          gap: 2.5rem;
+          padding: 2.5rem 2.5rem 2rem;
+        }
+        article {
+          flex: 3;
+          min-width: 0;
+          padding-right: 2rem;
+        }
+        aside {
+          flex: 1.2;
+          border-left: 2px solid var(--rule);
+          background: linear-gradient(to bottom, var(--soft) 80%, transparent);
+          padding: 2rem 1.5rem 2.5rem;
+          min-width: 0;
+          border-radius: 0 12px 12px 0;
+          font-size: 1.04rem;
+        }
+        section {
+          padding: 2.2rem 0 2.5rem;
+          border-top: 1.5px solid var(--rule);
+          position: relative;
+        }
+        section:first-child { border-top: 0; }
+        h2 {
+          font-size: clamp(1.8rem, 2.5vw, 2.5rem);
+          margin-bottom: 1.2rem;
+          color: var(--accent);
+        }
+        h3 {
+          font-size: 1.18rem;
+          text-transform: uppercase;
+          letter-spacing: .08em;
+          color: var(--accent-2);
+          margin: 1.5rem 0 .9rem;
+        }
+        p {
+          margin: 1.1rem 0;
+          font-size: 1.13rem;
+        }
+        .dropcap p:first-of-type::first-letter {
+          float: left;
+          font-size: 4.1rem;
+          line-height: .82;
+          padding-right: .35rem;
+          margin-top: .2rem;
+          font-family: var(--sans);
+          color: var(--accent);
+          font-weight: 700;
+        }
+        .quote {
+          margin: 1.5rem 0;
+          padding: 1.2rem 1.3rem;
+          background: var(--quote);
+          border-left: 4px solid var(--accent);
+          color: #3a2d1a;
+          font-size: 1.09rem;
+          border-radius: 6px;
+          font-style: italic;
+        }
+        .logic {
+          margin: 1.3rem 0;
+          padding: 1.1rem 1.2rem;
+          background: #2a1c0f;
+          color: #f7f3e7;
+          border-radius: .3rem;
+          font: .98rem/1.6 var(--mono);
+          overflow-x: auto;
+          white-space: pre-wrap;
+        }
+        .smallgrid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 1.2rem;
+          margin: 1.2rem 0;
+        }
+        .card {
+          border: 1.5px solid var(--rule);
+          background: rgba(255,255,255,.55);
+          padding: 1.1rem 1.2rem;
+          border-radius: 7px;
+        }
+        .card strong {
+          display: block;
+          margin-bottom: .45rem;
+          font-family: var(--sans);
+          font-size: 1.04rem;
+          text-transform: uppercase;
+          letter-spacing: .07em;
+          color: var(--accent-2);
+        }
+        .glossary-title {
+          font: .92rem/1.2 var(--mono);
+          text-transform: uppercase;
+          letter-spacing: .16em;
+          color: var(--accent);
+          margin-bottom: 1.2rem;
+        }
+        .term {
+          padding: 1.1rem 0;
+          border-top: 1.5px solid var(--rule);
+        }
+        .term:first-of-type { border-top: 0; }
+        .term dt {
+          font-family: var(--sans);
+          font-size: 1.08rem;
+          font-weight: 700;
+          letter-spacing: -.01em;
+        }
+        .term dd {
+          margin: .45rem 0 0;
+          color: var(--muted);
+          font-size: 1.01rem;
+        }
+        .foot {
+          padding: 1.7rem 4rem 3.2rem;
+          border-top: 2px solid var(--rule);
+          color: var(--muted);
+          font-size: 1.04rem;
+          background: var(--soft);
+          border-radius: 0 0 12px 12px;
+          margin-top: 2rem;
+        }
+        .sig {
+          font-family: var(--mono);
+          font-size: .92rem;
+          text-transform: uppercase;
+          letter-spacing: .12em;
+          color: var(--accent);
+        }
+        .crosslinks {
+          margin: 2.2rem 0 1.5rem;
+          padding: 1.2rem 1.2rem 1.2rem 2.2rem;
+          background: var(--quote);
+          border-left: 4px double var(--accent-2);
+          border-radius: 7px;
+          font-size: 1.09rem;
+          color: var(--accent);
+        }
+        .crosslinks a {
+          color: var(--accent-2);
+          text-decoration: underline dotted;
+          margin-right: 1.2em;
+        }
+        @media (max-width: 920px) {
+          .deck, main { flex-direction: column; gap: 1.2rem; }
+          aside { border-left: 0; border-top: 2px solid var(--rule); border-radius: 0 0 12px 12px; }
+          article { padding-right: 0; }
+        }
+        @media (max-width: 700px) {
+          header, .deck, article, .foot { padding-left: 1.2rem; padding-right: 1.2rem; }
+          .smallgrid { grid-template-columns: 1fr; }
+          h1 { max-width: none; }
+          main { padding: 1.2rem; }
+        }
+      </style>
 
-        <section id="k-universe-rhizome">
-          <h2>The K UniVerse: A Living Rhizome</h2>
-          <p>Beyond the treatise lies the K UniVerse—a sprawling, living rhizome of worlds, communities, and logics. Here, every node is a middle, every connection a new possibility. The K UniVerse is not a map, but a garden of forking paths, hidden glyphs, and emergent lore.</p>
-          <h3>Natural Worlds & Elements</h3>
-          <ul>
-            <li><a href="books/Plantlings.html">Plantlings: The Sprouting Ones</a></li>
-            <li><a href="books/Druidic-Seedlings.html">Druidic Seedlings</a></li>
-            <li><a href="books/Glyph-of-the-Root.html">Glyph of the Root</a></li>
-          </ul>
-          <h3>Communities of the K UniVerse</h3>
-          <ul>
+      <script>
+        // Optional: Add interactive crosslink highlighting or navigation
+      </script>
+
+      <!-- Space Dad Herman and Friends: Design & Illustration -->
             <li><a href="books/K-Constellation.html">K Constellation: Starbound Collective</a></li>
             <li><a href="books/K-Archivists.html">K Archivists</a></li>
             <li><a href="books/K-Drifters.html">K Drifters</a></li>
@@ -93,6 +322,18 @@
             <li><a href="books/Neither-Here-Nor-There.html">Neither Here Nor There</a></li>
           </ul>
           <p>Every link is a living invitation. The K UniVerse is never finished—explore, remix, and plant new nodes. <em>To grow the rhizome is to become it.</em></p>
+          <h3>Ancient Civilizations & New Social Forms</h3>
+          <ul>
+            <li><strong>Ancient Civs:</strong> The K UniVerse is seeded with echoes of lost empires—The Spiral Builders, The Glyphic Nomads, The Mycelial Courts—each with their own ruins, rituals, and technologies of relation.</li>
+            <li><strong>Sociology:</strong> Communities form and dissolve in patterns of kinship, drift, and collision. Social structure is a living experiment, not a fixed law.</li>
+            <li><strong>Anthropology:</strong> Every node is a culture, every link a field study. The K Anthropologists document not just what is, but what could be.</li>
+            <li><strong>Theology:</strong> Gods are emergent, polyphonic, and sometimes invented by the plants. Faith is a network, not a hierarchy.</li>
+            <li><strong>Mythology:</strong> Legends are alive, mutating with every retelling. Heroes are middles, monsters are bridges, and every myth is a map.</li>
+            <li><strong>Linguistics:</strong> Languages branch, merge, and hybridize. Some are spoken by roots, some by stars, some only in footnotes.</li>
+            <li><strong>Literary Analysis:</strong> Every text is a rhizome. Critique is a form of gardening—pruning, grafting, and cross-pollinating meaning.</li>
+            <li><strong>New Forms:</strong> The K UniVerse invents new disciplines: mytho-linguistics, rhizomatic theology, spiral sociology, glyphic anthropology, and more. Every field is open to mutation.</li>
+          </ul>
+          <p>To study the K UniVerse is to become a participant in its endless invention. Every discipline is a tool for growing new connections.</p>
         </section>
     </main>
     <script src="js/script.js"></script>
