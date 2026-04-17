@@ -5,9 +5,27 @@
 
 > *Rebless. Recurse. Rebless.*
 
----
 
 ## Anti-OOPedipus
+
+---
+
+## Drawing on Public Sources
+
+To grow this wiki and deepen connections, draw on specific public sources. Here are ways to integrate external knowledge:
+
+- **Direct Citation:** Quote or paraphrase from academic papers, books, or articles. Always include a reference link.
+- **Wikipedia Linking:** Reference or summarize relevant Wikipedia pages, using hyperlinks for further reading.
+- **Open Access Journals:** Integrate findings or concepts from open-access journals, with proper attribution.
+- **Creative Commons Media:** Embed or link to images, diagrams, or media under Creative Commons licenses.
+- **Web Annotations:** Use web annotation tools (e.g., Hypothes.is) to highlight and discuss public content, then link annotated discussions.
+
+### Example Reference Template
+
+> "Quoted or paraphrased content."  
+> — [Author], [Title], [Source/Journal], [Year], [URL]
+
+---
 
 **This culminated with the discovery of Deleuze and Guatarri’s ‘Anti-Oedipus’, which remains
 the only creative product which has produced an engagement that rivals my favourite shmups:
