@@ -1,4 +1,3 @@
-
 ---
 
 ## Theoretical Foundations: Multi-Valued Logics, Go Theory, Asymmetric Systems, Latin, Te Reo
