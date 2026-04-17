@@ -1,4 +1,25 @@
 
+---
+
+## Theoretical Foundations: Multi-Valued Logics, Go Theory, Asymmetric Systems, Latin, Te Reo
+
+### Multi-Valued Logics
+Beyond classical true/false logic, multi-valued logics introduce additional truth values (e.g., three-valued, fuzzy, or infinite-valued logics). These systems allow for nuanced reasoning, uncertainty, and gradations between true and false. Useful in philosophy, computer science, and linguistics.
+
+### Go Theory
+The game of Go (Weiqi/Baduk) is a model for complex, emergent strategy. Go theory explores territory, influence, life and death, and balance—often used as a metaphor for distributed, non-hierarchical systems. See [Go on Wikipedia](https://en.wikipedia.org/wiki/Go_(game)).
+
+### Asymmetric Systems
+Asymmetric systems lack symmetry in structure or operation. In theory and practice, asymmetry can produce complexity, resilience, and creative outcomes. Examples include asymmetric cryptography, biological systems, and social structures.
+
+### Latin
+Latin is the classical language of ancient Rome, foundational for Western philosophy, science, and law. Latin phrases and concepts often underpin theoretical discourse (e.g., "a priori", "tabula rasa").
+
+### Te Reo
+Te Reo Māori is the indigenous language of Aotearoa New Zealand. It encodes unique worldviews, whakapapa (genealogy), and relational thinking. Integrating Te Reo enriches theoretical frameworks with indigenous perspectives.
+
+---
+
 # Anti OOPedipus
 
 > *Generate Anti OOPedipus through whakapapa links.*
