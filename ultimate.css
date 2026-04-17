@@ -1,0 +1,14 @@
+/*
+Ultimate CSS file generated from the 'Everything' section of master-rhizomatic-seed.html (index.html content)
+*/
+
+body { font-family: Georgia, serif; background: #f4f4f4; color: #222; margin: 2em; }
+h1, h2 { color: #3e5c4a; }
+section { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; margin-bottom: 2em; padding: 1.5em; }
+.book-title { margin-top: 2em; color: #0074d9; border-bottom: 2px solid #0074d9; padding-bottom: 0.2em; }
+.divider { margin: 3em 0; border: none; border-top: 3px double #bbb; }
+
+/* Additional styles from index.html if needed */
+img { max-width: 100%; height: auto; display: block; margin: 2em auto; }
+
+/* Add more rules as needed for the ultimate look */
