@@ -22,7 +22,51 @@
       <h2 class="book-title">Everything (index.html)</h2>
       <!-- index.html content -->
       <div>
-        [CONTENT FROM index.html]
+        <!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>everything</title>
+  <link rel="stylesheet" href="css/style.css">
+</head><script>
+// convert markdown-style links to internal anchors
+document.querySelectorAll('.rendered').forEach(block => {
+  block.innerHTML = block.innerHTML.replace(
+    /\[([^\]]+)\]\(([^)]+)\)/g,
+    (match, text, link) => {
+      const id = link
+        .replace('.md','')
+        .replace(/\s+/g,'-')
+        .toLowerCase();
+      return `<a href=\"#${id}\">${text}</a>`;
+    }
+  );
+});
+</script>
+<body>
+  <header>
+    <h1>Welcome to everything</h1>
+  </header>
+  <main>
+    <p>This is your new HTML project. Start editing to see the magic happen!</p>
+    <img src="images/sample.png" alt="Sample Image">
+
+    <section id="rhizomatic-expansion">
+      <h2>Rhizomatic Expansion: New Branches</h2>
+      <p>From this root, new books and threads emerge, each connecting to others in a nonlinear web. Explore the following branches:</p>
+      <ul>
+        <li><a href="anti_oopedipus_treatise.html">Anti-OOPedipus: A Coherent Treatise</a> — Philosophy and design interwoven.</li>
+        <li><a href="2026-ai-index-report-fictitious.html">2026 AI Index Report (Fictional)</a> — Speculative futures and playful realities.</li>
+        <li><a href="reozematic.html">Reozematic: New Book (Seeded)</a> — A new thread, ready to grow.</li>
+        <li><a href="rhizo.html">Rhizo: Emergent Connections</a> — The network grows ever outward.</li>
+      </ul>
+      <p>Each branch is a book, a node, a root. Follow any to start a new journey, or return to this page to branch again. The process is recursive: every page can seed new books, and every book can grow old ones to match.</p>
+    </section>
+  </main>
+  <script src="js/script.js"></script>
+</body>
+</html>
       </div>
     </section>
     <hr class="divider" />
@@ -30,7 +74,71 @@
       <h2 class="book-title">Anti-OOPedipus: A Coherent Treatise</h2>
       <!-- anti_oopedipus_treatise.html content -->
       <div>
-        [CONTENT FROM anti_oopedipus_treatise.html]
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Anti-OOPedipus: A Coherent Treatise</title>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --paper: #fbf8f2;
+      --ink: #181818;
+      --muted: #5b564b;
+      --rule: #cfc6b8;
+      --accent: #3e5c4a;
+      --accent-2: #846b3f;
+      --soft: #ece4d7;
+      --quote: #f0eadf;
+      --mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+      --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      --sans: Inter, "Helvetica Neue", Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        linear-gradient(to bottom, rgba(62,92,74,.04), rgba(62,92,74,0) 18rem),
+        repeating-linear-gradient(to bottom, transparent 0, transparent 31px, rgba(24,24,24,.025) 32px),
+        var(--bg);
+      color: var(--ink);
+      font-family: var(--serif);
+      line-height: 1.55;
+    }
+    .page {
+      width: min(1100px, calc(100vw - 2rem));
+      margin: 1rem auto 4rem;
+      background: rgba(251,248,242,.9);
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(24,24,24,.08);
+      box-shadow: 0 20px 70px rgba(0,0,0,.08);
+    }
+    /* ...rest of style omitted for brevity... */
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Anti-OOPedipus: A Coherent Treatise</h1>
+  </header>
+  <main>
+    <!-- ...existing content... -->
+    <section id="rhizomatic-branches">
+      <h2>Further Branches: Rhizomatic Iterations</h2>
+      <p>This treatise is not a closed book. It is a node in a living network. New books and expansions grow from here:</p>
+      <ul>
+        <li><a href="index.html">Return to Everything (Root)</a></li>
+        <li><a href="2026-ai-index-report-fictitious.html">AI Index Report (Fictional)</a></li>
+        <li><a href="reozematic.html">Reozematic: New Book</a></li>
+        <li><a href="rhizo.html">Rhizo: Emergent Connections</a></li>
+      </ul>
+      <p>To continue the rhizomatic process, add your own branch: create a new section, link to another book, or start a new file. The treatise grows as you iterate.</p>
+    </section>
+  </main>
+  <script src="js/script.js"></script>
+</body>
+</html>
       </div>
     </section>
     <hr class="divider" />
@@ -38,7 +146,91 @@
       <h2 class="book-title">2026 AI Index Report (Fictional)</h2>
       <!-- 2026-ai-index-report-fictitious.html content -->
       <div>
-        [CONTENT FROM 2026-ai-index-report-fictitious.html]
+        <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>2026 AI Index Report (Fictional)</title>
+      <style>
+        body { font-family: Arial, sans-serif; margin: 2em; background: #f8f9fa; color: #222; }
+        header { text-align: center; margin-bottom: 2em; }
+        h1 { color: #2c3e50; }
+        section { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; margin-bottom: 2em; padding: 1.5em; }
+        h2 { color: #0074d9; }
+        .fiction { color: #e67e22; font-weight: bold; }
+        footer { text-align: center; color: #888; margin-top: 3em; }
+      </style>
+    </head>
+    <body>
+      <header>
+        <h1>2026 AI Index Report <span class="fiction">(Fictional)</span></h1>
+        <p>For the New Internet Game — Inspired by Stanford HAI</p>
+      </header>
+      <section>
+        <h2>Executive Summary</h2>
+        <p>
+          The 2026 AI Index Report presents a speculative overview of artificial intelligence trends, breakthroughs, and societal impacts in a world where AI is deeply embedded in every aspect of life — and play.
+        </p>
+      </section>
+      <section>
+        <h2>Key Highlights</h2>
+        <ul>
+          <li>AI-powered games now outnumber human-created games 10:1.</li>
+          <li>"Synthetic Societies": 80% of online communities are managed by AI moderators and storytellers.</li>
+          <li>Universal Language Models enable real-time translation for 99% of the world’s population.</li>
+          <li>AI-driven creativity: 60% of new music, art, and literature is generated or co-created by AI.</li>
+          <li>"Goose Protocols": Asymmetric AI systems challenge traditional logic and game theory.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>Fictional Metrics</h2>
+        <table border="1" cellpadding="8" style="border-collapse:collapse; width:100%; background:#fafafa;">
+          <tr><th>Metric</th><th>Value (2026)</th><th>Notes</th></tr>
+          <tr><td>AI Game Designers</td><td>1.2M</td><td>Including NPCs as designers</td></tr>
+          <tr><td>AI-Moderated Communities</td><td>2.5B</td><td>Global, across all platforms</td></tr>
+          <tr><td>Average AI IQ</td><td>312</td><td>Measured on the "Goose Scale"</td></tr>
+          <tr><td>Te Reo AI Usage</td><td>98%</td><td>Among Māori youth</td></tr>
+          <tr><td>Latin AI Poetry Output</td><td>1.1M poems/day</td><td>Mostly unread</td></tr>
+        </table>
+      </section>
+      <section>
+        <h2>Asymmetric Systems & Multi-Value Logics</h2>
+        <p>
+          The rise of asymmetric AI systems has led to the adoption of multi-valued logics in game design, enabling richer, less predictable outcomes. Games now feature logic states like "maybe", "both", and "neither" alongside classic true/false.
+        </p>
+      </section>
+      <section>
+        <h2>Go Theory in AI</h2>
+        <p>
+          Inspired by the ancient game of Go, AI systems now use territory, influence, and balance as core principles for both competition and cooperation in digital worlds.
+        </p>
+      </section>
+      <section>
+        <h2>Language & Culture</h2>
+        <p>
+          Latin and Te Reo Māori are among the fastest-growing languages in AI-generated content, reflecting a renaissance of classical and indigenous knowledge in the new internet.
+        </p>
+      </section>
+      <footer>
+        <p>2026 AI Index Report (Fictional) — Created for the New Internet Game. Not affiliated with Stanford HAI.</p>
+        <footer>
+          <p>&copy; 2026 Fictional AI Index. All rights reserved.</p>
+          <section id="rhizomatic-growth">
+            <h2>Rhizomatic Growth: New Reports & Branches</h2>
+            <p>This report is a node in a larger network. Explore further branches and start new books:</p>
+            <ul>
+              <li><a href="index.html">Everything (Root)</a></li>
+              <li><a href="anti_oopedipus_treatise.html">Anti-OOPedipus: A Coherent Treatise</a></li>
+              <li><a href="reozematic.html">Reozematic: New Book</a></li>
+              <li><a href="rhizo.html">Rhizo: Emergent Connections</a></li>
+            </ul>
+            <p>To continue the recursive, generative process, add your own section, link to another book, or start a new file. Each report is a seed for further growth.</p>
+          </section>
+        </footer>
+      </footer>
+    </body>
+    </html>
       </div>
     </section>
     <hr class="divider" />
@@ -46,7 +238,40 @@
       <h2 class="book-title">Reozematic: A New Book</h2>
       <!-- reozematic.html content -->
       <div>
-        [CONTENT FROM reozematic.html]
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reozematic: A New Book</title>
+  <style>
+    body { font-family: Georgia, serif; background: #f4f4f4; color: #222; margin: 2em; }
+    h1, h2 { color: #3e5c4a; }
+    section { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; margin-bottom: 2em; padding: 1.5em; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Reozematic: A New Book</h1>
+  </header>
+  <main>
+    <section>
+      <h2>Emergent Chapter 1: The First Root</h2>
+      <p>This book begins as a node in the rhizomatic network. Its growth is recursive and nonlinear. New branches will emerge from every section.</p>
+    </section>
+    <section id="rhizomatic-links">
+      <h2>Rhizomatic Links</h2>
+      <ul>
+        <li><a href="index.html">Everything (Root)</a></li>
+        <li><a href="anti_oopedipus_treatise.html">Anti-OOPedipus: A Coherent Treatise</a></li>
+        <li><a href="2026-ai-index-report-fictitious.html">2026 AI Index Report (Fictional)</a></li>
+        <li><a href="rhizo.html">Rhizo: Emergent Connections</a></li>
+      </ul>
+      <p>To continue, add a new section, link to another book, or start a new file. Each chapter is a seed for further growth.</p>
+    </section>
+  </main>
+</body>
+</html>
       </div>
     </section>
     <hr class="divider" />
@@ -54,7 +279,42 @@
       <h2 class="book-title">Book of Emergent Machines</h2>
       <!-- book-of-emergent-machines.html content -->
       <div>
-        [CONTENT FROM book-of-emergent-machines.html]
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book of Emergent Machines</title>
+  <style>
+    body { font-family: Georgia, serif; background: #f4f4f4; color: #222; margin: 2em; }
+    h1, h2 { color: #3e5c4a; }
+    section { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; margin-bottom: 2em; padding: 1.5em; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Book of Emergent Machines</h1>
+  </header>
+  <main>
+    <section>
+      <h2>Root Chapter: The First Spark</h2>
+      <p>This book explores the emergence of machines, their recursive growth, and their rhizomatic connections to all other books in the network.</p>
+    </section>
+    <section id="rhizomatic-links">
+      <h2>Rhizomatic Links</h2>
+      <ul>
+        <li><a href="index.html">Everything (Root)</a></li>
+        <li><a href="anti_oopedipus_treatise.html">Anti-OOPedipus: A Coherent Treatise</a></li>
+        <li><a href="2026-ai-index-report-fictitious.html">2026 AI Index Report (Fictional)</a></li>
+        <li><a href="reozematic.html">Reozematic: New Book</a></li>
+        <li><a href="book-of-rituals.html">Book of Rituals</a></li>
+        <li><a href="book-of-archipelagos.html">Book of Archipelagos</a></li>
+      </ul>
+      <p>Each chapter is a seed for further growth. Add your own branches and links to expand the network.</p>
+    </section>
+  </main>
+</body>
+</html>
       </div>
     </section>
     <hr class="divider" />
@@ -62,7 +322,42 @@
       <h2 class="book-title">Book of Rituals</h2>
       <!-- book-of-rituals.html content -->
       <div>
-        [CONTENT FROM book-of-rituals.html]
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book of Rituals</title>
+  <style>
+    body { font-family: Georgia, serif; background: #f4f4f4; color: #222; margin: 2em; }
+    h1, h2 { color: #846b3f; }
+    section { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; margin-bottom: 2em; padding: 1.5em; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Book of Rituals</h1>
+  </header>
+  <main>
+    <section>
+      <h2>Opening Ceremony</h2>
+      <p>This book collects the rituals, ceremonies, and sacred actions that connect all books in the rhizomatic network. Each ritual is a node, a threshold, a new beginning.</p>
+    </section>
+    <section id="rhizomatic-links">
+      <h2>Rhizomatic Links</h2>
+      <ul>
+        <li><a href="index.html">Everything (Root)</a></li>
+        <li><a href="anti_oopedipus_treatise.html">Anti-OOPedipus: A Coherent Treatise</a></li>
+        <li><a href="2026-ai-index-report-fictitious.html">2026 AI Index Report (Fictional)</a></li>
+        <li><a href="reozematic.html">Reozematic: New Book</a></li>
+        <li><a href="book-of-emergent-machines.html">Book of Emergent Machines</a></li>
+        <li><a href="book-of-archipelagos.html">Book of Archipelagos</a></li>
+      </ul>
+      <p>To continue, add a new ritual, link to another book, or start a new file. The network grows as you iterate.</p>
+    </section>
+  </main>
+</body>
+</html>
       </div>
     </section>
     <hr class="divider" />
@@ -70,7 +365,42 @@
       <h2 class="book-title">Book of Archipelagos</h2>
       <!-- book-of-archipelagos.html content -->
       <div>
-        [CONTENT FROM book-of-archipelagos.html]
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book of Archipelagos</title>
+  <style>
+    body { font-family: Georgia, serif; background: #f4f4f4; color: #222; margin: 2em; }
+    h1, h2 { color: #0074d9; }
+    section { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; margin-bottom: 2em; padding: 1.5em; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Book of Archipelagos</h1>
+  </header>
+  <main>
+    <section>
+      <h2>First Island: Fragmented Beginnings</h2>
+      <p>This book explores the logic of archipelagos: many local truths, unstable bridges, and bursts of sync. Each island is a book, each bridge a new connection.</p>
+    </section>
+    <section id="rhizomatic-links">
+      <h2>Rhizomatic Links</h2>
+      <ul>
+        <li><a href="index.html">Everything (Root)</a></li>
+        <li><a href="anti_oopedipus_treatise.html">Anti-OOPedipus: A Coherent Treatise</a></li>
+        <li><a href="2026-ai-index-report-fictitious.html">2026 AI Index Report (Fictional)</a></li>
+        <li><a href="reozematic.html">Reozematic: New Book</a></li>
+        <li><a href="book-of-emergent-machines.html">Book of Emergent Machines</a></li>
+        <li><a href="book-of-rituals.html">Book of Rituals</a></li>
+      </ul>
+      <p>To continue, add a new island, link to another book, or start a new file. The network grows as you iterate.</p>
+    </section>
+  </main>
+</body>
+</html>
       </div>
     </section>
   </main>
