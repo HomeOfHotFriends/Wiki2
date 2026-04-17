@@ -1,14 +1,67 @@
 /*
-Ultimate CSS file generated from the 'Everything' section of master-rhizomatic-seed.html (index.html content)
+Ultimate CSS file recursively built from all major book sections in master-rhizomatic-seed.html.
+This file merges and extends the styles from:
+- index.html (Everything)
+- anti_oopedipus_treatise.html
+- 2026-ai-index-report-fictitious.html
+- reozematic.html
+- book-of-emergent-machines.html
+- book-of-rituals.html
+- book-of-archipelagos.html
 */
 
+/* index.html (Everything) */
 body { font-family: Georgia, serif; background: #f4f4f4; color: #222; margin: 2em; }
 h1, h2 { color: #3e5c4a; }
 section { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; margin-bottom: 2em; padding: 1.5em; }
 .book-title { margin-top: 2em; color: #0074d9; border-bottom: 2px solid #0074d9; padding-bottom: 0.2em; }
 .divider { margin: 3em 0; border: none; border-top: 3px double #bbb; }
-
-/* Additional styles from index.html if needed */
 img { max-width: 100%; height: auto; display: block; margin: 2em auto; }
 
-/* Add more rules as needed for the ultimate look */
+/* anti_oopedipus_treatise.html */
+:root {
+	--bg: #f5f1e8;
+	--paper: #fbf8f2;
+	--ink: #181818;
+	--muted: #5b564b;
+	--rule: #cfc6b8;
+	--accent: #3e5c4a;
+	--accent-2: #846b3f;
+	--soft: #ece4d7;
+	--quote: #f0eadf;
+	--mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+	--serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, serif;
+	--sans: Inter, "Helvetica Neue", Arial, sans-serif;
+}
+html { scroll-behavior: smooth; }
+.page {
+	width: min(1100px, calc(100vw - 2rem));
+	margin: 1rem auto 4rem;
+	background: rgba(251,248,242,.9);
+	backdrop-filter: blur(2px);
+	border: 1px solid rgba(24,24,24,.08);
+	box-shadow: 0 20px 70px rgba(0,0,0,.08);
+}
+
+/* 2026-ai-index-report-fictitious.html */
+header { text-align: center; margin-bottom: 2em; }
+h1 { color: #2c3e50; }
+h2 { color: #0074d9; }
+.fiction { color: #e67e22; font-weight: bold; }
+table { border-collapse: collapse; width: 100%; background: #fafafa; }
+td, th { border: 1px solid #ccc; padding: 8px; }
+footer { text-align: center; color: #888; margin-top: 3em; }
+
+/* reozematic.html, book-of-emergent-machines.html, book-of-rituals.html, book-of-archipelagos.html */
+/* These share similar base styles, already included above. Add unique color accents: */
+.book-of-rituals h1, .book-of-rituals h2 { color: #846b3f; }
+.book-of-archipelagos h1, .book-of-archipelagos h2 { color: #0074d9; }
+
+/* Utility and recursive growth: */
+.rhizomatic-links ul, .rhizomatic-links li { list-style: disc inside; margin-left: 1em; }
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+	body { margin: 0.5em; }
+	section, .page { padding: 0.5em; }
+}
