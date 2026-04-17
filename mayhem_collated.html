@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maximum Mayhem</title>
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --fg: #f2f2ea;
+      --muted: #a7a79a;
+      --green: #7fa36b;
+      --yellow: #c3b34a;
+      --brown: #6d5a43;
+      --red: #9b5c5c;
+      --line: rgba(255,255,255,0.12);
+      --ghost: rgba(255,255,255,0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(127,163,107,0.13), transparent 26%),
+        radial-gradient(circle at 80% 30%, rgba(195,179,74,0.08), transparent 28%),
+        radial-gradient(circle at 50% 85%, rgba(109,90,67,0.12), transparent 24%),
+        var(--bg);
+      color: var(--fg);
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      min-height: 100%;
+    }
+
+    body {
+      padding: 3rem 1.25rem 8rem;
+      overflow-x: hidden;
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .page::before,
+    .page::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      opacity: 0.08;
+    }
+
+    .page::before {
+      background:
+        repeating-linear-gradient(
+          90deg,
+          transparent 0,
+          transparent 48px,
+          rgba(255,255,255,0.02) 49px,
+          transparent 50px,
+          transparent 98px,
+          rgba(127,163,107,0.05) 99px,
+          transparent 100px
+        );
+    }
+
+    .page::after {
+      background:
+        repeating-linear-gradient(
+          180deg,
+          transparent 0,
+          transparent 27px,
+          rgba(255,255,255,0.015) 28px,
+          transparent 29px,
+          transparent 56px,
+          rgba(195,179,74,0.03) 57px,
+          transparent 58px
+        );
+    }
+
+    header.hero {
+      border: 1px solid var(--line);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      position: relative;
+      background: rgba(255,255,255,0.02);
+      backdrop-filter: blur(2px);
+      overflow: hidden;
+    }
+
+    header.hero h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 4.8rem);
+      line-height: 0.95;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    header.hero p {
+      margin: 1rem 0 0;
+      max-width: 60ch;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    header.hero .ghost-title {
+      position: absolute;
+      right: 1rem;
+      top: -0.35rem;
+      font-size: clamp(2rem, 9vw, 8rem);
+      color: rgba(255,255,255,0.04);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1rem;
+    }
+
+    section {
+      position: relative;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.025);
+      min-height: 180px;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.02), transparent 45%, rgba(127,163,107,0.05));
+      pointer-events: none;
+    }
+
+    .block {
+      padding: 1.2rem;
+    }
+
+    .span-12 { grid-column: span 12; }
+    .span-8 { grid-column: span 8; }
+    .span-7 { grid-column: span 7; }
+    .span-6 { grid-column: span 6; }
+    .span-5 { grid-column: span 5; }
+    .span-4 { grid-column: span 4; }
+
+    h2, h3, h4, p, pre, ul {
+      position: relative;
+      z-index: 1;
+    }
+
+    h2, h3 {
+      margin-top: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    p {
+      line-height: 1.45;
+      margin: 0 0 0.65rem;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      color: #f5f1d5;
+    }
+
+    nav a, .rhizome-nav a {
+      color: var(--fg);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      margin-right: 0.9rem;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+    }
+
+    footer, .small, .instruction, .connections, .density, .rules, .play, .weight {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .text-layer {
+      position: absolute;
+      inset: auto 1rem auto 1rem;
+      font-size: clamp(1rem, 2vw, 1.45rem);
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .anti-oop {
+      min-height: 280px;
+    }
+
+    .anti-oop .main {
+      top: 1rem;
+      color: var(--fg);
+      max-width: 18ch;
+      font-weight: 700;
+    }
+
+    .anti-oop .ghost {
+      top: 5.3rem;
+      left: 2rem;
+      color: rgba(195,179,74,0.22);
+      font-size: clamp(1.6rem, 5vw, 4rem);
+      letter-spacing: 0.14em;
+      transform: rotate(-5deg);
+    }
+
+    .anti-oop .noise {
+      bottom: 1rem;
+      right: 1rem;
+      left: auto;
+      width: 16ch;
+      color: rgba(127,163,107,0.65);
+      text-align: right;
+      font-size: 0.95rem;
+    }
+
+    .zero-field .base {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(0deg, transparent 24%, rgba(255,255,255,0.04) 25%, transparent 26%),
+        linear-gradient(90deg, transparent 24%, rgba(255,255,255,0.04) 25%, transparent 26%);
+      background-size: 32px 32px;
+      opacity: 0.35;
+    }
+
+    .zero-field .code,
+    .zero-field .overlay,
+    .zero-field footer {
+      position: relative;
+      z-index: 1;
+      padding: 1.2rem;
+    }
+
+    .zero-field .overlay {
+      position: absolute;
+      right: 0.5rem;
+      top: 0.5rem;
+      text-align: right;
+      color: rgba(255,255,255,0.76);
+      font-size: 0.92rem;
+      text-transform: uppercase;
+    }
+
+    .zero-field footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      border-top: 1px solid var(--line);
+      background: rgba(0,0,0,0.25);
+      margin: 0;
+    }
+
+    .law-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .law-block h2 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      margin-bottom: 0.8rem;
+    }
+
+    .law-block p {
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      max-width: 18ch;
+    }
+
+    .rules {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
+    }
+
+    .rules span {
+      padding: 0.35rem 0.6rem;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .enemy-wave .wave {
+      padding: 1.2rem;
+      font-size: clamp(1.05rem, 2vw, 1.45rem);
+      max-width: 24ch;
+    }
+
+    .enemy-wave .density {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      text-align: right;
+      gap: 0.4rem;
+    }
+
+    .rhizome-nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 1.2rem 1.2rem 0.2rem;
+      columns: 2;
+    }
+
+    .rhizome-nav li {
+      margin-bottom: 0.8rem;
+      break-inside: avoid;
+    }
+
+    .rhizome-nav .connections {
+      border-top: 1px solid var(--line);
+      padding: 1rem 1.2rem 1.2rem;
+      font-size: 1rem;
+    }
+
+    .taonga {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      min-height: 220px;
+    }
+
+    .taonga h3 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .logic-toggle, .system, .warning, .plantling {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 1.2rem;
+    }
+
+    .suite {
+      padding: 1.2rem;
+      min-height: 220px;
+    }
+
+    .suite > div {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 1rem;
+    }
+
+    .suite:last-child > div:last-child {
+      margin-bottom: 0;
+    }
+
+    .suite nav {
+      margin-bottom: 1rem;
+    }
+
+    .suite .core,
+    .suite .reader,
+    .suite .toggle,
+    .suite .machine,
+    .suite .field {
+      font-size: 1.05rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .taonga-weight .silence {
+      opacity: 0.3;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 0.5rem 0;
+    }
+
+    .reader-failure .failure,
+    .field-law-break .break,
+    .machine-leak .leak,
+    .paradox-loop .loop {
+      color: #f0d3d3;
+    }
+
+    .footer-note {
+      margin-top: 2rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.95rem;
+      background: rgba(255,255,255,0.02);
+    }
+
+    @media (max-width: 900px) {
+      .span-8, .span-7, .span-6, .span-5, .span-4 {
+        grid-column: span 12;
+      }
+
+      .anti-oop .ghost {
+        top: 7rem;
+      }
+
+      .rhizome-nav ul {
+        columns: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="ghost-title">Mayhem</div>
+      <h1>Maximum Mayhem</h1>
+      <p>One collated HTML organism. Drop whole, slice apart, or steal fragments. Best consumed as a field rather than a sequence.</p>
+    </header>
+
+    <main class="grid">
+      <section class="zero-field span-7">
+        <div class="base"></div>
+        <pre class="code">ZERO_SET::{
+  pūwāhi_kau
+  pūtake_aukati
+  huinga_whakaputa
+  katinotoa
+  huinga_kōwhiringa
+}</pre>
+        <div class="overlay">
+          <p>FIELD::primary</p>
+          <p>MOTION::persistent</p>
+          <p>LAW::interaction &gt; action</p>
+        </div>
+        <footer>Whakapapa → Te Whariki Pumotu → DOD → Simplicity</footer>
+      </section>
+
+      <section class="anti-oop span-5">
+        <div class="text-layer main">Anti-OOPedipus is not a system. It is a refusal of containment.</div>
+        <div class="text-layer ghost">Rebless. Recurse. Rebless.</div>
+        <div class="text-layer noise">desiring-machine → rhizome → collapse → reformation</div>
+      </section>
+
+      <section class="law-block block span-4">
+        <div>
+          <h2>THE LAW</h2>
+          <p>Extreme depth of the whole through extreme simplicity of the parts.</p>
+        </div>
+        <div class="rules">
+          <span>POSITION &gt; REACTION</span>
+          <span>CONSTRAINT = GENERATOR</span>
+          <span>OBSTACLE = UNIQUE EVENT</span>
+        </div>
+      </section>
+
+      <section class="enemy-wave span-4">
+        <div class="wave">
+          <p>Each obstacle is not repetition. Each obstacle is difference.</p>
+        </div>
+        <div class="density">
+          <span>t₀ ≠ t₁ ≠ t₂</span>
+          <span>pattern = memory + mutation</span>
+        </div>
+      </section>
+
+      <section class="rhizome-nav span-4">
+        <ul>
+          <li><a href="#">Zero Set</a></li>
+          <li><a href="#">Te Whariki Pumotu</a></li>
+          <li><a href="#">Mauri</a></li>
+          <li><a href="#">Enemy Wave</a></li>
+          <li><a href="#">The Law</a></li>
+        </ul>
+        <div class="connections">
+          <p>Do not read nodes.</p>
+          <p>Traverse connections.</p>
+        </div>
+      </section>
+
+      <section class="taonga block span-4">
+        <div>
+          <h3>TAONGA</h3>
+          <p>Code carries mauri.</p>
+          <p>Structure is not neutral.</p>
+          <p>Nothing here is metaphor.</p>
+        </div>
+      </section>
+
+      <section class="logic-toggle span-4">
+        <div class="mode">0 = continuous</div>
+        <div class="mode">1 = discrete</div>
+        <div class="play"><p>invert → riff → echo → pause</p></div>
+      </section>
+
+      <section class="warning span-4">
+        <p>DO NOT read this section alone.</p>
+        <p>Combine with at least one other section.</p>
+        <p>Meaning emerges between.</p>
+      </section>
+
+      <section class="plantling span-4">
+        <p>For I know what it’s like to lose a Space Dad.</p>
+      </section>
+
+      <section class="system span-4">
+        <pre>SYSTEM = f(A, B, C, reader, tempo)
+
+A = constraint
+B = variation
+C = reflection</pre>
+      </section>
+
+      <section class="suite field-law-break span-6">
+        <div class="field">
+          <pre>FIELD::primary
+MOTION::persistent_noncollapsing
+SYNC::radial_depth_modulated</pre>
+        </div>
+        <div class="law"><p>extreme depth from simple parts</p></div>
+        <div class="break">
+          <p>collapse occurs when read linearly</p>
+          <p>recover by reordering</p>
+        </div>
+      </section>
+
+      <section class="suite rhizome-misread span-6">
+        <nav>
+          <a href="#">Zero</a>
+          <a href="#">Wave</a>
+          <a href="#">Mauri</a>
+          <a href="#">Law</a>
+        </nav>
+        <div class="instruction">
+          <p>click any two in sequence</p>
+          <p>ignore the first</p>
+        </div>
+        <div class="glitch"><p>meaning = second_order(selection)</p></div>
+      </section>
+
+      <section class="suite machine-leak span-4">
+        <div class="machine">
+          <pre>INPUT::signal
+PROCESS::transform
+OUTPUT::structure</pre>
+        </div>
+        <div class="desire"><p>machine wants more input than exists</p></div>
+        <div class="leak"><p>excess spills into user</p></div>
+      </section>
+
+      <section class="suite taonga-weight span-4">
+        <div class="core"><p>this is not metaphor</p></div>
+        <div class="silence"><p>&nbsp;</p><p>&nbsp;</p></div>
+        <div class="weight"><p>code carries mauri</p></div>
+      </section>
+
+      <section class="suite paradox-loop span-4">
+        <div class="toggle">
+          <p>0 = continuous</p>
+          <p>1 = discrete</p>
+        </div>
+        <div class="paradox">
+          <p>continuous contains discrete</p>
+          <p>discrete produces continuous</p>
+        </div>
+        <div class="loop"><p>repeat until distinction fails</p></div>
+      </section>
+
+      <section class="suite reader-failure span-12">
+        <div class="reader"><p>you are part of the system</p></div>
+        <div class="protocol">
+          <p>DO NOT read sequentially</p>
+          <p>DO NOT isolate meaning</p>
+        </div>
+        <div class="failure"><p>if clarity achieved → restart</p></div>
+      </section>
+    </main>
+
+    <div class="footer-note">
+      Extension: <strong>.html</strong>. Open it in any browser, or paste fragments into a larger HTML document. For deeper chaos, pair it with a separate stylesheet or let this one run feral as-is.
+    </div>
+  </div>
+</body>
+</html>

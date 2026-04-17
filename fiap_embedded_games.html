@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FIAP Embedded Games</title>
+<style>
+  :root{
+    --paper:#e9dfc8;
+    --ink:#2d2a24;
+    --faint:#7d715d;
+    --rule:#b8ab90;
+    --accent:#6c8a3c;
+    --accent2:#8b5cf6;
+    --gold:#d2b565;
+    --shadow:rgba(0,0,0,0.12);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    padding:24px;
+    background:#0f0f0f;
+    color:var(--ink);
+    font-family:Georgia, "Times New Roman", serif;
+  }
+  .sheet{
+    max-width:1200px;
+    margin:0 auto;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(255,255,255,0.25), transparent 20%),
+      linear-gradient(to bottom, #eee5d0, #e5dac1);
+    border:1px solid #9f9278;
+    box-shadow:0 20px 60px rgba(0,0,0,0.4);
+    padding:32px;
+  }
+  h1{
+    margin:0 0 6px;
+    font-family:Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+    letter-spacing:.03em;
+    font-size:3rem;
+    text-transform:uppercase;
+  }
+  .sub{
+    color:var(--faint);
+    font-style:italic;
+    margin-bottom:24px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:22px;
+  }
+  .game-card{
+    background:rgba(255,255,255,0.32);
+    border:1px solid var(--rule);
+    box-shadow:0 4px 18px var(--shadow);
+    padding:18px;
+  }
+  .game-card h2{
+    margin:0 0 8px;
+    font-size:1.5rem;
+    text-transform:uppercase;
+    letter-spacing:.02em;
+  }
+  .game-card p{
+    margin:0 0 14px;
+    line-height:1.35;
+  }
+  .hud{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    font-size:.95rem;
+    color:var(--faint);
+    margin:8px 0 12px;
+  }
+  button{
+    font:inherit;
+    border:1px solid #85775f;
+    background:#f3ecdc;
+    color:var(--ink);
+    padding:8px 12px;
+    cursor:pointer;
+  }
+  button:hover{background:#fbf7ef}
+  .row{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+
+  /* Game 1 */
+  .rhizome-board{
+    display:grid;
+    grid-template-columns:repeat(5,52px);
+    grid-template-rows:repeat(5,52px);
+    gap:6px;
+    justify-content:center;
+    margin:14px 0;
+  }
+  .node{
+    border:1px solid #8d7e65;
+    background:#f1ead8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.4rem;
+    user-select:none;
+  }
+  .node.active{background:#dbe8c3; box-shadow:inset 0 0 0 2px var(--accent)}
+  .node.exit{background:#eadcf9}
+  .note{
+    font-size:.88rem;
+    color:var(--faint);
+  }
+
+  /* Game 2 */
+  .bullet-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:1/1;
+    background:radial-gradient(circle at center, #2a2033 0%, #161219 62%, #0d0b10 100%);
+    border:1px solid #54485b;
+    overflow:hidden;
+  }
+  .player, .orb{
+    position:absolute;
+    border-radius:50%;
+    transform:translate(-50%,-50%);
+  }
+  .player{
+    width:14px; height:14px; background:#fff;
+    box-shadow:0 0 10px rgba(88,216,255,.8);
+  }
+  .orb{
+    width:10px; height:10px; background:#ff9f67;
+    box-shadow:0 0 8px rgba(216,109,255,.7);
+  }
+  .core{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:20px; height:20px; border-radius:50%;
+    background:#e6d8ff;
+    box-shadow:0 0 18px rgba(216,109,255,.8);
+  }
+
+  /* Game 3 */
+  .weave{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:6px;
+    margin:12px 0;
+  }
+  .tile{
+    aspect-ratio:1/1;
+    border:1px solid #887a63;
+    background:#efe7d4;
+    cursor:pointer;
+    position:relative;
+  }
+  .tile.a{background:#d9e5c7}
+  .tile.b{background:#ead9c7}
+  .tile.mark::after{
+    content:"";
+    position:absolute; inset:20%;
+    border-radius:50%; background:#2e2a22;
+  }
+  .footer{
+    margin-top:28px;
+    padding-top:18px;
+    border-top:1px solid var(--rule);
+    color:var(--faint);
+    font-size:.92rem;
+  }
+</style>
+</head>
+<body>
+  <main class="sheet">
+    <h1>Embedded FIAP Games</h1>
+    <div class="sub">Three small machines for the document: route, dodge, and weave.</div>
+
+    <section class="grid">
+      <article class="game-card" id="game-rhizome">
+        <h2>Plantling Route</h2>
+        <p>Click neighboring nodes to grow a line from <strong>seed</strong> to <strong>exit</strong>. No backtracking. Relation first, destination second.</p>
+        <div class="hud"><span>Steps: <strong data-steps>0</strong></span><span>Status: <strong data-status>germinating</strong></span></div>
+        <div class="rhizome-board" aria-label="Plantling Route board"></div>
+        <div class="row"><button data-reset>Reset route</button></div>
+        <div class="note">Rule: move only orthogonally. Reach the violet exit in 9 moves or less.</div>
+      </article>
+
+      <article class="game-card" id="game-bullet">
+        <h2>Dodge Is A Prayer</h2>
+        <p>Move with arrow keys or WASD. Survive the soft sermon of incoming bullets for twenty seconds.</p>
+        <div class="hud"><span>Time: <strong data-time>20.0</strong></span><span>Faith: <strong data-score>0</strong></span></div>
+        <div class="bullet-wrap" tabindex="0" aria-label="Bullet dodge field">
+          <div class="core"></div>
+          <div class="player"></div>
+        </div>
+        <div class="row"><button data-start>Start / Restart</button></div>
+        <div class="note">The longer you remain in relation without collapse, the higher the faith count.</div>
+      </article>
+
+      <article class="game-card" id="game-weave">
+        <h2>Zero Set Weave</h2>
+        <p>Flip tiles to reveal a hidden pattern. Make all columns balanced: three green, three clay.</p>
+        <div class="hud"><span>Moves: <strong data-moves>0</strong></span><span>Status: <strong data-weave-status>unresolved</strong></span></div>
+        <div class="weave" aria-label="Zero Set Weave grid"></div>
+        <div class="row"><button data-weave-reset>Reset weave</button></div>
+        <div class="note">Clicking a tile flips it and its four orthogonal neighbours.</div>
+      </article>
+    </section>
+
+    <div class="footer">
+      These are standalone sections you can drop into the doc, or lift the inner <code>.game-card</code> blocks individually.
+    </div>
+  </main>
+
+<script>
+(() => {
+  // Game 1: Plantling Route
+  const routeGame = document.querySelector('#game-rhizome');
+  const board = routeGame.querySelector('.rhizome-board');
+  const stepsEl = routeGame.querySelector('[data-steps]');
+  const statusEl = routeGame.querySelector('[data-status]');
+  const resetBtn = routeGame.querySelector('[data-reset]');
+  const size = 5;
+  const start = 0;
+  const exit = 24;
+  let path = [start];
+  function idxToRC(i){ return [Math.floor(i/size), i%size]; }
+  function neighbor(a,b){ const [ar,ac]=idxToRC(a), [br,bc]=idxToRC(b); return Math.abs(ar-br)+Math.abs(ac-bc)===1; }
+  function drawBoard(){
+    board.innerHTML = '';
+    for(let i=0;i<size*size;i++){
+      const d=document.createElement('button');
+      d.className='node';
+      d.type='button';
+      d.textContent = i===start ? '•' : i===exit ? '◉' : '';
+      if(path.includes(i)) d.classList.add('active');
+      if(i===exit) d.classList.add('exit');
+      d.addEventListener('click',()=>{
+        const current = path[path.length-1];
+        if(i===path[path.length-2]){ path.pop(); updateRoute(); return; }
+        if(!path.includes(i) && neighbor(current,i)) path.push(i);
+        updateRoute();
+      });
+      board.appendChild(d);
+    }
+  }
+  function updateRoute(){
+    stepsEl.textContent = path.length-1;
+    if(path[path.length-1]===exit && path.length-1<=9) statusEl.textContent='root found';
+    else if(path[path.length-1]===exit) statusEl.textContent='too tangled';
+    else statusEl.textContent='germinating';
+    drawBoard();
+  }
+  resetBtn.addEventListener('click',()=>{ path=[start]; updateRoute(); });
+  updateRoute();
+
+  // Game 2: Bullet hell
+  const bulletGame = document.querySelector('#game-bullet');
+  const wrap = bulletGame.querySelector('.bullet-wrap');
+  const player = bulletGame.querySelector('.player');
+  const startButton = bulletGame.querySelector('[data-start]');
+  const timeEl = bulletGame.querySelector('[data-time]');
+  const scoreEl = bulletGame.querySelector('[data-score]');
+  let anim, bullets=[], running=false, keys={};
+  let px=50, py=82, t=20, score=0, spawnTick=0, lastTime=0;
+  function placePlayer(){ player.style.left=px+'%'; player.style.top=py+'%'; }
+  function clearBullets(){ bullets.forEach(b=>b.el.remove()); bullets=[]; }
+  function spawnBullet(angle,speed){
+    const el=document.createElement('div');
+    el.className='orb';
+    wrap.appendChild(el);
+    bullets.push({x:50,y:50,vx:Math.cos(angle)*speed,vy:Math.sin(angle)*speed,el});
+  }
+  function rectHit(ax,ay,bx,by,r){ return Math.hypot(ax-bx, ay-by) < r; }
+  function loop(ts){
+    if(!running) return;
+    if(!lastTime) lastTime=ts;
+    const dt=(ts-lastTime)/1000; lastTime=ts;
+    t-=dt; score+=dt*10; spawnTick+=dt;
+    const move=38*dt;
+    if(keys['ArrowLeft']||keys['a']) px-=move;
+    if(keys['ArrowRight']||keys['d']) px+=move;
+    if(keys['ArrowUp']||keys['w']) py-=move;
+    if(keys['ArrowDown']||keys['s']) py+=move;
+    px=Math.max(3,Math.min(97,px)); py=Math.max(3,Math.min(97,py));
+    placePlayer();
+    if(spawnTick>.42){
+      spawnTick=0;
+      const ring = 6 + Math.floor((20-t)/4);
+      for(let i=0;i<ring;i++) spawnBullet((Math.PI*2/ring)*i + ts/900, 11 + (20-t)*0.35);
+    }
+    bullets.forEach(b=>{ b.x += b.vx*dt; b.y += b.vy*dt; b.el.style.left=b.x+'%'; b.el.style.top=b.y+'%'; });
+    bullets = bullets.filter(b=> b.x>-5 && b.x<105 && b.y>-5 && b.y<105);
+    for(const b of bullets){ if(rectHit(px,py,b.x,b.y,2.3)){ endRun('struck'); return; } }
+    timeEl.textContent = Math.max(0,t).toFixed(1);
+    scoreEl.textContent = Math.floor(score);
+    if(t<=0){ endRun('survived'); return; }
+    anim=requestAnimationFrame(loop);
+  }
+  function endRun(state){
+    running=false;
+    cancelAnimationFrame(anim);
+    timeEl.textContent = state==='survived' ? '0.0' : Math.max(0,t).toFixed(1);
+    scoreEl.textContent = state==='survived' ? Math.floor(score) + ' ✓' : Math.floor(score) + ' ✕';
+  }
+  function startRun(){
+    cancelAnimationFrame(anim); clearBullets();
+    px=50; py=82; t=20; score=0; spawnTick=0; lastTime=0; running=true;
+    placePlayer(); timeEl.textContent='20.0'; scoreEl.textContent='0'; wrap.focus();
+    anim=requestAnimationFrame(loop);
+  }
+  startButton.addEventListener('click',startRun);
+  window.addEventListener('keydown',e=>{ keys[e.key]=true; });
+  window.addEventListener('keyup',e=>{ keys[e.key]=false; });
+  placePlayer();
+
+  // Game 3: Weave
+  const weaveGame = document.querySelector('#game-weave');
+  const weave = weaveGame.querySelector('.weave');
+  const movesEl = weaveGame.querySelector('[data-moves]');
+  const weaveStatus = weaveGame.querySelector('[data-weave-status]');
+  const weaveReset = weaveGame.querySelector('[data-weave-reset]');
+  let state=[]; let moves=0;
+  const W=6, H=6;
+  function resetWeave(){
+    state = Array.from({length:W*H}, (_,i)=> (i*7+i%3)%2);
+    moves=0; renderWeave();
+  }
+  function flip(i){
+    const r=Math.floor(i/W), c=i%W;
+    [[r,c],[r-1,c],[r+1,c],[r,c-1],[r,c+1]].forEach(([rr,cc])=>{
+      if(rr>=0&&rr<H&&cc>=0&&cc<W){ const idx=rr*W+cc; state[idx]=1-state[idx]; }
+    });
+    moves++; renderWeave();
+  }
+  function balanced(){
+    for(let c=0;c<W;c++){
+      let sum=0; for(let r=0;r<H;r++) sum += state[r*W+c];
+      if(sum!==3) return false;
+    }
+    return true;
+  }
+  function renderWeave(){
+    weave.innerHTML='';
+    state.forEach((v,i)=>{
+      const t=document.createElement('button');
+      t.className='tile ' + (v?'a':'b');
+      if(i%5===0) t.classList.add('mark');
+      t.type='button';
+      t.addEventListener('click',()=>flip(i));
+      weave.appendChild(t);
+    });
+    movesEl.textContent = moves;
+    weaveStatus.textContent = balanced() ? 'woven' : 'unresolved';
+  }
+  weaveReset.addEventListener('click',resetWeave);
+  resetWeave();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FIAP Game Hub</title>
+<style>
+  :root{
+    --paper:#e7dcc2;
+    --paper2:#d9cdb1;
+    --ink:#2d2a24;
+    --faint:#6f6454;
+    --rule:#9f8f73;
+    --green:#738d45;
+    --violet:#7f5be8;
+    --gold:#cfb56a;
+    --shadow:rgba(0,0,0,.18);
+    --panel:rgba(255,255,255,.28);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#111;color:var(--ink);font-family:Georgia,"Times New Roman",serif}
+  body{padding:18px}
+  .hub{
+    max-width:1380px;margin:0 auto;background:
+      radial-gradient(circle at 16% 12%, rgba(255,255,255,.34), transparent 18%),
+      radial-gradient(circle at 80% 70%, rgba(255,255,255,.16), transparent 24%),
+      linear-gradient(to bottom, var(--paper), var(--paper2));
+    border:1px solid #8f8166; box-shadow:0 22px 70px rgba(0,0,0,.42); padding:28px;
+  }
+  .mast{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:end;margin-bottom:22px}
+  h1{margin:0;font-family:Impact,Haettenschweiler,"Arial Narrow Bold",sans-serif;text-transform:uppercase;letter-spacing:.03em;font-size:4rem;line-height:.92}
+  .sub{margin-top:8px;font-style:italic;color:var(--faint);font-size:1.1rem;max-width:40ch}
+  .law{border-top:1px solid rgba(120,106,77,.5);padding-top:12px;color:#5a5247;line-height:1.25}
+  .law strong{display:block;font-size:1.15rem;color:#3d372f;margin-bottom:6px}
+  .portal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+  .portal{
+    background:var(--panel);border:1px solid var(--rule);padding:18px;cursor:pointer;min-height:180px;
+    box-shadow:0 4px 16px var(--shadow); transition:.18s transform,.18s background,.18s border-color;
+  }
+  .portal:hover{transform:translateY(-2px);background:rgba(255,255,255,.38)}
+  .portal.active{border-color:#5f7d33;background:rgba(218,231,188,.4)}
+  .portal h2{margin:0 0 8px;font-size:1.55rem;text-transform:uppercase;letter-spacing:.02em}
+  .portal p{margin:0 0 12px;line-height:1.3}
+  .portal .meta{font-size:.95rem;color:var(--faint)}
+  .playfield{display:grid;grid-template-columns:320px 1fr;gap:18px;align-items:start}
+  .index, .game-shell{background:rgba(255,255,255,.26);border:1px solid var(--rule);box-shadow:0 4px 16px var(--shadow)}
+  .index{padding:18px}
+  .index h3{margin:0 0 10px;font-size:1.2rem;text-transform:uppercase;letter-spacing:.04em}
+  .index ol{margin:0;padding-left:20px;line-height:1.55}
+  .index code{font-size:.9rem}
+  .game-shell{padding:18px}
+  .game-panel{display:none}
+  .game-panel.active{display:block}
+  .game-panel h2{margin:0 0 8px;font-size:1.8rem;text-transform:uppercase;letter-spacing:.02em}
+  .game-panel p{margin:0 0 12px;line-height:1.35}
+  .hud{display:flex;justify-content:space-between;gap:12px;color:var(--faint);font-size:.96rem;margin:10px 0 12px;flex-wrap:wrap}
+  button{font:inherit;border:1px solid #807158;background:#f5eddd;color:var(--ink);padding:8px 12px;cursor:pointer}
+  button:hover{background:#fff9ef}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .note{font-size:.9rem;color:var(--faint);margin-top:10px}
+
+  .rhizome-board{display:grid;grid-template-columns:repeat(5,58px);grid-template-rows:repeat(5,58px);gap:6px;justify-content:center;margin:16px 0}
+  .node{border:1px solid #8b7c62;background:#f1e7d1;display:flex;align-items:center;justify-content:center;font-size:1.45rem;user-select:none}
+  .node.active{background:#dbe7c7;box-shadow:inset 0 0 0 2px var(--green)}
+  .node.exit{background:#e9dcfb}
+
+  .bullet-wrap{position:relative;width:min(640px,100%);aspect-ratio:1/1;background:radial-gradient(circle at center,#2b2134 0%,#161218 60%,#0d0a10 100%);border:1px solid #54485a;overflow:hidden}
+  .player,.orb{position:absolute;border-radius:50%;transform:translate(-50%,-50%)}
+  .player{width:14px;height:14px;background:#fff;box-shadow:0 0 12px rgba(88,216,255,.85)}
+  .orb{width:10px;height:10px;background:#ff9f67;box-shadow:0 0 8px rgba(216,109,255,.78)}
+  .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:#e7d9ff;box-shadow:0 0 20px rgba(216,109,255,.85)}
+
+  .weave{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;max-width:640px;margin:14px 0}
+  .tile{aspect-ratio:1/1;border:1px solid #887a63;background:#efe7d4;cursor:pointer;position:relative}
+  .tile.a{background:#d8e4c6}.tile.b{background:#ead8c6}
+  .tile.mark::after{content:"";position:absolute;inset:22%;border-radius:50%;background:#2f2a23}
+
+  .footer{margin-top:18px;padding-top:14px;border-top:1px solid rgba(120,106,77,.45);font-size:.93rem;color:var(--faint)}
+  @media (max-width: 1100px){
+    .mast,.playfield,.portal-grid{grid-template-columns:1fr}
+    h1{font-size:3rem}
+  }
+</style>
+</head>
+<body>
+  <main class="hub">
+    <section class="mast">
+      <div>
+        <h1>FIAP Game Hub</h1>
+        <div class="sub">A small arcade-marae for the embedded doc machines. Route, dodge, weave, then send the survivor back into the manuscript.</div>
+      </div>
+      <div class="law">
+        <strong>Operating law</strong>
+        These are not “apps.” They are little ritual pressures inside the book. Each one should feel like a page that became playable instead of a website pretending to be a page.
+      </div>
+    </section>
+
+    <section class="portal-grid" aria-label="Game portal chooser">
+      <article class="portal active" data-target="route">
+        <h2>Plantling Route</h2>
+        <p>Grow from seed to exit. No backtracking without memory cost.</p>
+        <div class="meta">rhizome / path / adjacency</div>
+      </article>
+      <article class="portal" data-target="dodge">
+        <h2>Dodge Is A Prayer</h2>
+        <p>Survive the sermon-field for twenty seconds.</p>
+        <div class="meta">bullet / breath / faith count</div>
+      </article>
+      <article class="portal" data-target="weave">
+        <h2>Zero Set Weave</h2>
+        <p>Flip the substrate until every column is balanced.</p>
+        <div class="meta">grid / balance / base void</div>
+      </article>
+    </section>
+
+    <section class="playfield">
+      <aside class="index">
+        <h3>Embedding index</h3>
+        <ol>
+          <li>Use this file as a hub page in the doc.</li>
+          <li>Use <code>fiap_embedded_games.html</code> when you want all three cards in one spread.</li>
+          <li>Lift each game panel into the manuscript as its own machine when needed.</li>
+        </ol>
+        <div class="note">The hub is built to sit before or after the spread like a threshold page.</div>
+      </aside>
+
+      <section class="game-shell">
+        <article class="game-panel active" id="panel-route">
+          <h2>Plantling Route</h2>
+          <p>Click neighbouring nodes to grow a line from <strong>seed</strong> to <strong>exit</strong>. Move only orthogonally. Reach the violet exit in nine moves or less.</p>
+          <div class="hud"><span>Steps: <strong data-steps>0</strong></span><span>Status: <strong data-status>germinating</strong></span></div>
+          <div class="rhizome-board" aria-label="Plantling Route board"></div>
+          <div class="row"><button data-reset>Reset route</button></div>
+          <div class="note">Relation first, destination second.</div>
+        </article>
+
+        <article class="game-panel" id="panel-dodge">
+          <h2>Dodge Is A Prayer</h2>
+          <p>Move with arrow keys or WASD. Survive the incoming bullets for twenty seconds. The longer you remain in relation without collapse, the higher the faith count.</p>
+          <div class="hud"><span>Time: <strong data-time>20.0</strong></span><span>Faith: <strong data-score>0</strong></span></div>
+          <div class="bullet-wrap" tabindex="0" aria-label="Bullet dodge field">
+            <div class="core"></div>
+            <div class="player"></div>
+          </div>
+          <div class="row"><button data-start>Start / Restart</button></div>
+          <div class="note">A tiny sermon in radial form.</div>
+        </article>
+
+        <article class="game-panel" id="panel-weave">
+          <h2>Zero Set Weave</h2>
+          <p>Flip tiles to reveal a hidden pattern. Make all columns balanced: three green, three clay. Clicking a tile flips it and its four orthogonal neighbours.</p>
+          <div class="hud"><span>Moves: <strong data-moves>0</strong></span><span>Status: <strong data-weave-status>unresolved</strong></span></div>
+          <div class="weave" aria-label="Zero Set Weave grid"></div>
+          <div class="row"><button data-weave-reset>Reset weave</button></div>
+          <div class="note">The substrate remembers every touch.</div>
+        </article>
+      </section>
+    </section>
+
+    <div class="footer">Hub plus machines. Built to accompany the embedded spread and the wider FIAP / Anti-OOPedipus document ecology.</div>
+  </main>
+
+<script>
+(() => {
+  // portal switching
+  const portals = [...document.querySelectorAll('.portal')];
+  const panels = {
+    route: document.getElementById('panel-route'),
+    dodge: document.getElementById('panel-dodge'),
+    weave: document.getElementById('panel-weave')
+  };
+  portals.forEach(portal => portal.addEventListener('click', () => {
+    portals.forEach(p => p.classList.remove('active'));
+    Object.values(panels).forEach(p => p.classList.remove('active'));
+    portal.classList.add('active');
+    panels[portal.dataset.target].classList.add('active');
+  }));
+
+  // Game 1
+  const routeGame = document.querySelector('#panel-route');
+  const board = routeGame.querySelector('.rhizome-board');
+  const stepsEl = routeGame.querySelector('[data-steps]');
+  const statusEl = routeGame.querySelector('[data-status]');
+  const resetBtn = routeGame.querySelector('[data-reset]');
+  const size = 5, start = 0, exit = 24;
+  let path = [start];
+  const idxToRC = i => [Math.floor(i/size), i%size];
+  const neighbor = (a,b) => { const [ar,ac]=idxToRC(a), [br,bc]=idxToRC(b); return Math.abs(ar-br)+Math.abs(ac-bc)===1; };
+  function drawBoard(){
+    board.innerHTML='';
+    for(let i=0;i<size*size;i++){
+      const d=document.createElement('button');
+      d.className='node'; d.type='button';
+      d.textContent = i===start ? '•' : i===exit ? '◉' : '';
+      if(path.includes(i)) d.classList.add('active');
+      if(i===exit) d.classList.add('exit');
+      d.addEventListener('click',()=>{
+        const current = path[path.length-1];
+        if(i===path[path.length-2]) { path.pop(); updateRoute(); return; }
+        if(!path.includes(i) && neighbor(current,i)) path.push(i);
+        updateRoute();
+      });
+      board.appendChild(d);
+    }
+  }
+  function updateRoute(){
+    stepsEl.textContent = path.length-1;
+    if(path[path.length-1]===exit && path.length-1<=9) statusEl.textContent='root found';
+    else if(path[path.length-1]===exit) statusEl.textContent='too tangled';
+    else statusEl.textContent='germinating';
+    drawBoard();
+  }
+  resetBtn.addEventListener('click',()=>{ path=[start]; updateRoute(); });
+  updateRoute();
+
+  // Game 2
+  const bulletGame = document.querySelector('#panel-dodge');
+  const wrap = bulletGame.querySelector('.bullet-wrap');
+  const player = bulletGame.querySelector('.player');
+  const startBtn = bulletGame.querySelector('[data-start]');
+  const timeEl = bulletGame.querySelector('[data-time]');
+  const scoreEl = bulletGame.querySelector('[data-score]');
+  let keys = {}, bullets = [], running = false, lastTime = 0, spawnAcc = 0, timeLeft = 20, faith = 0;
+  let px = 50, py = 84;
+  const clearBullets = () => { bullets.forEach(b => b.el.remove()); bullets = []; };
+  const setPlayer = () => { player.style.left = px + '%'; player.style.top = py + '%'; };
+  setPlayer();
+  window.addEventListener('keydown', e => { if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','w','a','s','d','W','A','S','D'].includes(e.key)) { keys[e.key]=true; if(document.getElementById('panel-dodge').classList.contains('active')) wrap.focus(); } });
+  window.addEventListener('keyup', e => { delete keys[e.key]; });
+  function spawnBullet(){
+    const angle = Math.random()*Math.PI*2;
+    const radius = 58;
+    const x = 50 + Math.cos(angle)*radius;
+    const y = 50 + Math.sin(angle)*radius;
+    const vx = (50 - x) / 240;
+    const vy = (50 - y) / 240;
+    const el = document.createElement('div');
+    el.className='orb';
+    wrap.appendChild(el);
+    bullets.push({x,y,vx,vy,el});
+  }
+  function resetBulletGame(){
+    running = true; timeLeft = 20; faith = 0; px = 50; py = 84; spawnAcc = 0; lastTime = performance.now();
+    clearBullets(); setPlayer(); timeEl.textContent = timeLeft.toFixed(1); scoreEl.textContent = faith;
+    requestAnimationFrame(loop);
+  }
+  function lose(){ running=false; timeEl.textContent='0.0'; }
+  function win(){ running=false; }
+  function loop(ts){
+    if(!running) return;
+    const dt = Math.min(32, ts-lastTime); lastTime = ts;
+    timeLeft -= dt/1000; faith += dt/100;
+    if(timeLeft <= 0) { timeLeft = 0; scoreEl.textContent = Math.floor(faith); timeEl.textContent = timeLeft.toFixed(1); win(); return; }
+    const speed = dt * 0.03;
+    if(keys.ArrowUp||keys.w||keys.W) py -= speed;
+    if(keys.ArrowDown||keys.s||keys.S) py += speed;
+    if(keys.ArrowLeft||keys.a||keys.A) px -= speed;
+    if(keys.ArrowRight||keys.d||keys.D) px += speed;
+    px = Math.max(3, Math.min(97, px)); py = Math.max(3, Math.min(97, py));
+    setPlayer();
+    spawnAcc += dt;
+    if(spawnAcc > 280) { spawnAcc = 0; spawnBullet(); }
+    bullets.forEach(b => {
+      b.x += b.vx * dt; b.y += b.vy * dt;
+      b.el.style.left = b.x + '%'; b.el.style.top = b.y + '%';
+    });
+    bullets = bullets.filter(b => {
+      const dx = b.x - px, dy = b.y - py;
+      if(Math.hypot(dx,dy) < 2.8) { lose(); return false; }
+      if(b.x < -8 || b.x > 108 || b.y < -8 || b.y > 108) { b.el.remove(); return false; }
+      return true;
+    });
+    timeEl.textContent = timeLeft.toFixed(1);
+    scoreEl.textContent = Math.floor(faith);
+    requestAnimationFrame(loop);
+  }
+  startBtn.addEventListener('click', resetBulletGame);
+
+  // Game 3
+  const weaveGame = document.querySelector('#panel-weave');
+  const weave = weaveGame.querySelector('.weave');
+  const movesEl = weaveGame.querySelector('[data-moves]');
+  const weaveStatus = weaveGame.querySelector('[data-weave-status]');
+  const weaveReset = weaveGame.querySelector('[data-weave-reset]');
+  const W = 6, H = 6;
+  let grid = [], moves = 0;
+  function initWeave(){
+    grid = Array.from({length:W*H}, (_,i) => (i%3===0 || i%4===0) ? 1 : 0);
+    for(let i=0;i<14;i++) flip(Math.floor(Math.random()*W*H), false);
+    moves = 0; renderWeave();
+  }
+  function coords(i){ return [Math.floor(i/W), i%W]; }
+  function flip(i,count=true){
+    const [r,c] = coords(i);
+    [[r,c],[r-1,c],[r+1,c],[r,c-1],[r,c+1]].forEach(([rr,cc]) => {
+      if(rr>=0 && rr<H && cc>=0 && cc<W) {
+        const j = rr*W + cc; grid[j] = grid[j] ? 0 : 1;
+      }
+    });
+    if(count) moves++;
+  }
+  function balanced(){
+    for(let c=0;c<W;c++){
+      let sum = 0; for(let r=0;r<H;r++) sum += grid[r*W + c];
+      if(sum !== 3) return false;
+    }
+    return true;
+  }
+  function renderWeave(){
+    weave.innerHTML='';
+    grid.forEach((v,i) => {
+      const t = document.createElement('button');
+      t.className = 'tile ' + (v ? 'a' : 'b') + ((i%2===0) ? ' mark' : '');
+      t.type='button';
+      t.addEventListener('click', () => { flip(i); renderWeave(); });
+      weave.appendChild(t);
+    });
+    movesEl.textContent = moves;
+    weaveStatus.textContent = balanced() ? 'balanced' : 'unresolved';
+  }
+  weaveReset.addEventListener('click', initWeave);
+  initWeave();
+})();
+</script>
+</body>
+</html>

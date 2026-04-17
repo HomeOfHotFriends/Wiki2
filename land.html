@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOME :: Massive Book :: Space Dad × Herman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0d0f12;
+      --bg-soft:#14181d;
+      --panel:#171c22;
+      --panel-2:#1e252d;
+      --ink:#eef3ea;
+      --muted:#93a08f;
+      --line:rgba(255,255,255,0.09);
+
+      --space-dad:#f28c28;
+      --herman:#79d34f;
+      --bell:#ffd34d;
+      --enemy:#8f7c69;
+      --seal:#77d8d0;
+      --panic:#ff6e5b;
+      --tongue:#b6ff8a;
+      --board:#8dd7ff;
+      --accent:#d7df6c;
+
+      --max:1200px;
+      --radius:18px;
+      --shadow:0 20px 60px rgba(0,0,0,0.34);
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:radial-gradient(circle at top, #18202b 0%, var(--bg) 52%);color:var(--ink)}
+    body{
+      font-family:"Inter",system-ui,sans-serif;
+      line-height:1.45;
+      letter-spacing:-0.01em;
+    }
+
+    ::selection{
+      background:rgba(121,211,79,0.22);
+      color:#fff;
+    }
+
+    .page{
+      width:min(calc(100% - 2rem), var(--max));
+      margin:0 auto;
+      padding:2rem 0 6rem;
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border:1px solid var(--line);
+      border-radius:32px;
+      padding:2.5rem 2rem 2rem;
+      background:
+        radial-gradient(circle at 12% 20%, rgba(242,140,40,0.18), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(121,211,79,0.16), transparent 28%),
+        radial-gradient(circle at 50% 0%, rgba(141,215,255,0.10), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
+        var(--panel);
+      box-shadow:var(--shadow);
+      margin-bottom:1.5rem;
+    }
+
+    .eyebrow{
+      font-family:"IBM Plex Mono", monospace;
+      color:var(--muted);
+      font-size:0.8rem;
+      text-transform:uppercase;
+      letter-spacing:0.14em;
+      margin-bottom:1rem;
+    }
+
+    .title{
+      font-size:clamp(2.4rem, 6vw, 5.8rem);
+      line-height:0.95;
+      margin:0;
+      letter-spacing:-0.06em;
+      max-width:10ch;
+    }
+
+    .title .orange{color:var(--space-dad)}
+    .title .green{color:var(--herman)}
+
+    .subtitle{
+      margin:1rem 0 0;
+      color:#d8e0d5;
+      font-size:clamp(1rem, 1.6vw, 1.25rem);
+      max-width:44rem;
+    }
+
+    .top-grid{
+      display:grid;
+      grid-template-columns:1.2fr 0.8fr;
+      gap:1rem;
+      margin-top:1.8rem;
+    }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      padding:1rem 1rem 1.1rem;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015));
+    }
+
+    .card h2,
+    .card h3,
+    .section-title{
+      margin:0 0 0.7rem;
+      font-size:0.94rem;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      color:#cfd8cb;
+    }
+
+    .logic-pair{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:1rem;
+    }
+
+    .logic-box{
+      border-radius:16px;
+      padding:1rem;
+      min-height:100%;
+      background:var(--panel-2);
+      border:1px solid var(--line);
+    }
+
+    .logic-box h4{
+      margin:0 0 0.7rem;
+      font-size:1rem;
+      text-transform:uppercase;
+      letter-spacing:0.12em;
+      font-family:"IBM Plex Mono", monospace;
+    }
+
+    .logic-box.space h4{color:var(--space-dad)}
+    .logic-box.herman h4{color:var(--herman)}
+
+    ul.clean,
+    .tag-list{
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+
+    ul.clean li{
+      margin:0.38rem 0;
+      color:#e5ece1;
+    }
+
+    .tag-list{
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.55rem;
+    }
+
+    .tag{
+      padding:0.5rem 0.72rem;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,0.03);
+      font-family:"IBM Plex Mono", monospace;
+      font-size:0.8rem;
+      color:#dbe4d7;
+    }
+
+    .tag.orange{color:var(--space-dad); border-color:rgba(242,140,40,0.25)}
+    .tag.green{color:var(--herman); border-color:rgba(121,211,79,0.25)}
+    .tag.yellow{color:var(--bell); border-color:rgba(255,211,77,0.25)}
+    .tag.blue{color:var(--board); border-color:rgba(141,215,255,0.25)}
+    .tag.red{color:var(--panic); border-color:rgba(255,110,91,0.25)}
+    .tag.cyan{color:var(--seal); border-color:rgba(119,216,208,0.25)}
+
+    .section{
+      margin-top:1.3rem;
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:1.25rem;
+      background:rgba(17,22,27,0.85);
+      box-shadow:var(--shadow);
+    }
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:1rem;
+      margin-bottom:1rem;
+      padding-bottom:0.8rem;
+      border-bottom:1px solid var(--line);
+    }
+
+    .section-title{
+      font-size:1rem;
+      color:#f0f5ed;
+    }
+
+    .section-note{
+      font-family:"IBM Plex Mono", monospace;
+      font-size:0.82rem;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+    }
+
+    .micro-grid{
+      display:grid;
+      grid-template-columns:repeat(5, 1fr);
+      gap:0.9rem;
+    }
+
+    .micro{
+      position:relative;
+      min-height:260px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:0.9rem;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)),
+        var(--panel);
+      overflow:hidden;
+    }
+
+    .micro::before{
+      content:"";
+      position:absolute;
+      inset:auto -10% -30% auto;
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      opacity:0.1;
+      pointer-events:none;
+      filter:blur(6px);
+      background:radial-gradient(circle, var(--herman), transparent 65%);
+    }
+
+    .code{
+      font-family:"IBM Plex Mono", monospace;
+      font-size:0.76rem;
+      color:#aab6a6;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      margin-bottom:0.55rem;
+    }
+
+    .micro h4{
+      margin:0 0 0.55rem;
+      font-size:1rem;
+      line-height:1.05;
+    }
+
+    .micro p{
+      margin:0 0 0.7rem;
+      color:#d7dfd3;
+      font-size:0.94rem;
+    }
+
+    .micro .active{
+      margin-top:auto;
+      display:flex;
+      flex-wrap:wrap;
+      gap:0.45rem;
+    }
+
+    .hook-grid,
+    .open-grid,
+    .state-grid{
+      display:grid;
+      grid-template-columns:repeat(2, 1fr);
+      gap:0.9rem;
+    }
+
+    .state-grid{
+      grid-template-columns:repeat(3, 1fr);
+    }
+
+    .mono{
+      font-family:"IBM Plex Mono", monospace;
+    }
+
+    .small{
+      font-size:0.9rem;
+      color:#cfdbca;
+    }
+
+    .line{
+      height:1px;
+      background:var(--line);
+      margin:1rem 0;
+    }
+
+    .prototype{
+      display:grid;
+      grid-template-columns:repeat(4, 1fr);
+      gap:0.9rem;
+    }
+
+    .step{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:1rem;
+      background:var(--panel);
+    }
+
+    .step .n{
+      font-family:"IBM Plex Mono", monospace;
+      color:var(--accent);
+      font-size:0.78rem;
+      letter-spacing:0.12em;
+      text-transform:uppercase;
+      margin-bottom:0.6rem;
+    }
+
+    .footer{
+      margin-top:1.3rem;
+      padding:1.2rem 1.25rem;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background:
+        radial-gradient(circle at 80% 20%, rgba(255,211,77,0.10), transparent 25%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
+        var(--panel);
+    }
+
+    .footer p{
+      margin:0.35rem 0;
+      color:#dbe3d7;
+    }
+
+    @media (max-width: 1100px){
+      .micro-grid{grid-template-columns:repeat(3,1fr)}
+      .prototype{grid-template-columns:repeat(2,1fr)}
+      .state-grid{grid-template-columns:repeat(2,1fr)}
+    }
+
+    @media (max-width: 780px){
+      .top-grid,
+      .logic-pair,
+      .micro-grid,
+      .hook-grid,
+      .open-grid,
+      .prototype,
+      .state-grid{
+        grid-template-columns:1fr;
+      }
+
+      .hero{
+        padding:1.4rem 1rem 1rem;
+        border-radius:24px;
+      }
+
+      .section{
+        padding:1rem;
+        border-radius:22px;
+      }
+
+      .micro{
+        min-height:auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+
+    <header class="hero">
+      <div class="eyebrow">HOME :: MASSIVE BOOK :: SYSTEM VOLUME</div>
+      <h1 class="title"><span class="orange">Space Dad</span> × <span class="green">Herman</span></h1>
+      <p class="subtitle">When Survival Splits Into Two Bodies</p>
+
+      <div class="top-grid">
+        <section class="card">
+          <h2>Core Pair</h2>
+          <div class="logic-pair">
+            <div class="logic-box space">
+              <h4>Space Dad</h4>
+              <ul class="clean">
+                <li>Dodge</li>
+                <li>Hold</li>
+                <li>Aim</li>
+                <li>Recall</li>
+              </ul>
+            </div>
+            <div class="logic-box herman">
+              <h4>Herman</h4>
+              <ul class="clean">
+                <li>Perch</li>
+                <li>Swing</li>
+                <li>Chain</li>
+                <li>Convert</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Engine Values</h2>
+          <div class="tag-list">
+            <span class="tag orange">Present Threat</span>
+            <span class="tag green">Future Route</span>
+            <span class="tag cyan">Stored Silence</span>
+            <span class="tag yellow">Airborne Score</span>
+            <span class="tag blue">Return Violence</span>
+            <span class="tag">Temporary Geometry</span>
+          </div>
+        </section>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="section-head">
+        <div class="section-title">Structural Hooks</div>
+        <div class="section-note">persistent laws</div>
+      </div>
+      <div class="hook-grid">
+        <div class="card small">
+          <p>Hook:: Space Dad survives what is already here.</p>
+          <p>Hook:: Herman changes what will matter next.</p>
+          <p>Hook:: Any enemy may become platform, silence, score source, or wasted time.</p>
+          <p>Hook:: Perch is safety until it becomes panic.</p>
+          <p>Hook:: Return converts distance into force.</p>
+        </div>
+        <div class="card small">
+          <p>Hook:: A good jump is also a map.</p>
+          <p>Hook:: Some kills are worse than some silences.</p>
+          <p>Hook:: The screen is traversable before it is readable.</p>
+          <p>Hook:: A bell route is a future hidden inside violence.</p>
+          <p>Hook:: Every missed latch reveals a different field.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section

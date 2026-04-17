@@ -1,0 +1,208 @@
+import React, { useMemo, useState } from "react"; import { motion } from "framer-motion"; import { RotateCcw, Play, Layers3, Sparkles, Circle, Square, Triangle, PauseCircle } from "lucide-react";
+
+const layerGroups = { substrate: { title: "Substrate", description: "What kind of being the machine is made from.", options: [ { id: "dual-truth-grid", label: "Dual Truth Grid", short: "C1 + C2 + Big Frendly", effect: { ontology: "Dual architecture with produced unity", play: "Two active layers must be coordinated rather than fused", aesthetic: "Structured multiplicity" } }, { id: "single-stream-field", label: "Single Stream Field", short: "One core, direct continuity", effect: { ontology: "Primary continuity with low contradiction", play: "Smooth flow, less conflict, fewer pivots", aesthetic: "Continuous drift" } }, { id: "split-islands", label: "Split Islands", short: "Many local truths", effect: { ontology: "Plural ontology with unstable bridges", play: "Fragmented routes, local rules, bursts of sync", aesthetic: "Archipelago logic" } } ] }, readMode: { title: "Read Mode", description: "How the machine interprets what is placed into it.", options: [ { id: "paired", label: "Paired Read", short: "(x,y) as event", effect: { ontology: "Relation-first being", play: "Touch creates joint action and response", aesthetic: "Coupled motion" } }, { id: "isolated-x", label: "Isolated X", short: "Identity selection", effect: { ontology: "Entity-first reading", play: "Touch selects bodies, roles, pieces", aesthetic: "Discrete marks" } }, { id: "isolated-y", label: "Isolated Y", short: "State modulation", effect: { ontology: "Intensity-first reading", play: "Touch alters mood, force, timing, weather", aesthetic: "Pressure haze" } }, { id: "synthesized", label: "Synthesized", short: "Big Frendly joins", effect: { ontology: "Local unity as event", play: "Inputs become temporary wholes", aesthetic: "Momentary convergence" } } ] }, actionLogic: { title: "Action Logic", description: "What touch does in the world.", options: [ { id: "proposal", label: "Proposal", short: "Touch suggests, machine interprets", effect: { ontology: "Player is attractor, not ruler", play: "Soft authored emergence", aesthetic: "Listening system" } }, { id: "direct-command", label: "Direct Command", short: "Touch issues instruction", effect: { ontology: "Hierarchy of control", play: "Immediate response and placement", aesthetic: "Clear edges" } }, { id: "pass-event", label: "Pass Event", short: "Meaningful non-placement", effect: { ontology: "Silence is executable", play: "Hold, defer, preserve, rotate precedence", aesthetic: "Suspended pressure" } } ] }, geometry: { title: "Geometry", description: "What shape the resulting game-body takes.", options: [ { id: "table", label: "Pin Table", short: "Ramps, traps, reflectors", effect: { ontology: "World as reflection surface", play: "Indirect control with rebounds", aesthetic: "Mechanical music" } }, { id: "corridor", label: "Corridor Maze", short: "Lanes and turns", effect: { ontology: "Path as decision grammar", play: "Chase, delay, route shaping", aesthetic: "Orthogonal pursuit" } }, { id: "open-plane", label: "Open Plane", short: "Drift field", effect: { ontology: "Position as continuous meaning", play: "Free motion, pressure, wave tracing", aesthetic: "Float and orbit" } } ] }, resultTone: { title: "Result Tone", description: "How the machine names the world it creates.", options: [ { id: "ritual", label: "Ritual", short: "Sacred local coordination", effect: { ontology: "Unity feels achieved", play: "Slow, deliberate, threshold-heavy", aesthetic: "Ceremonial glow" } }, { id: "toy", label: "Toy", short: "Immediate delight, hidden depth", effect: { ontology: "Small object with deep interior", play: "Tap-friendly, quick loops, repeated discovery", aesthetic: "Bright concise charm" } }, { id: "engine", label: "Engine", short: "System for generating systems", effect: { ontology: "Meta-machine", play: "Results feed future rules", aesthetic: "Recursive apparatus" } } ] } };
+
+const initialSelections = { substrate: "dual-truth-grid", readMode: "paired", actionLogic: "proposal", geometry: "table", resultTone: "engine" };
+
+const gridSize = 5;
+
+function getSelectedOption(groupKey, optionId) { return layerGroups[groupKey].options.find((o) => o.id === optionId); }
+
+function buildResult(selections) { const substrate = getSelectedOption("substrate", selections.substrate); const readMode = getSelectedOption("readMode", selections.readMode); const actionLogic = getSelectedOption("actionLogic", selections.actionLogic); const geometry = getSelectedOption("geometry", selections.geometry); const resultTone = getSelectedOption("resultTone", selections.resultTone);
+
+const title = [substrate.label, geometry.label, resultTone.label].join(" / "); const ontologySentence = ${substrate.effect.ontology}. ${readMode.effect.ontology}. ${actionLogic.effect.ontology}.; const playSentence = ${geometry.effect.play}. ${readMode.effect.play}. ${actionLogic.effect.play}.; const aestheticSentence = ${geometry.effect.aesthetic}. ${resultTone.effect.aesthetic}. ${substrate.effect.aesthetic}.;
+
+const loop = [ "Touch enters as proposal", "Machine resolves the read mode", "Big Frendly or direct logic creates a local event", "Geometry converts event into playable consequence", "Tone names the consequence as world-feeling" ];
+
+const mechanicSeeds = [ substrate.id === "dual-truth-grid" ? "Two-part actions that must rejoin to score" : "Single-body drift with state pulses", readMode.id === "isolated-x" ? "Tap to select body, drag to commit role" : readMode.id === "isolated-y" ? "Touch pressure zones that change mood or force" : "Paired touches generate linked events", actionLogic.id === "pass-event" ? "A dedicated hold zone that changes precedence instead of placing" : "Rapid touch phrases that shape routes", geometry.id === "table" ? "Reflectors, drains, gates, and ramps" : geometry.id === "corridor" ? "Turns, chasers, pockets, and one-way routes" : "Open field hazards and orbit anchors" ];
+
+return { title, ontologySentence, playSentence, aestheticSentence, loop, mechanicSeeds }; }
+
+function ResultGlyph({ geometry }) { if (geometry === "table") return <Square className="h-8 w-8" />; if (geometry === "corridor") return <Triangle className="h-8 w-8" />; return <Circle className="h-8 w-8" />; }
+
+function OptionButton({ option, selected, onClick }) { return ( <motion.button whileTap={{ scale: 0.98 }} onClick={onClick} className={w-full rounded-[18px] border px-4 py-4 text-left transition-all ${selected ? "border-lime-300/30 bg-white/10 text-white shadow-xl" : "border-white/10 bg-white/[0.03] text-white/90"}} > <div className="flex items-start justify-between gap-3"> <div> <div className="text-sm font-extrabold uppercase tracking-[0.14em]">{option.label}</div> <div className={mt-2 text-sm ${selected ? "text-white/80" : "text-white/60"}}>{option.short}</div> </div> <div className={mt-1 h-3 w-3 rounded-full ${selected ? "bg-lime-300" : "bg-white/20"}} /> </div> </motion.button> ); }
+
+function LayerCard({ groupKey, group, selection, setSelection }) { return ( <section className="rounded-[22px] border border-white/10 bg-[#171c22]/90 p-4 shadow-2xl"> <div className="mb-4 flex items-start gap-3"> <Layers3 className="mt-0.5 h-5 w-5 text-[#d7df6c]" /> <div> <h2 className="text-sm font-black uppercase tracking-[0.15em] text-white">{group.title}</h2> <p className="mt-1 text-sm text-white/60">{group.description}</p> </div> </div> <div className="space-y-3"> {group.options.map((option) => ( <OptionButton key={option.id} option={option} selected={selection === option.id} onClick={() => setSelection(groupKey, option.id)} /> ))} </div> </section> ); }
+
+function PlayCell({ active, label, onTouch }) { return ( <button onPointerDown={onTouch} className={aspect-square rounded-[16px] border text-left transition-all ${active ? "border-lime-300/50 bg-lime-300/15 shadow-[0_0_0_1px_rgba(190,242,100,0.08)]" : "border-white/10 bg-white/[0.03]"}} > <div className="flex h-full flex-col justify-between p-3"> <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">cell</div> <div className="text-sm font-semibold text-white/85">{label}</div> </div> </button> ); }
+
+function TouchPlayZone({ selections }) { const [activeCells, setActiveCells] = useState([]); const [log, setLog] = useState(["touch a cell to begin"]); const [passCount, setPassCount] = useState(0);
+
+const handleTouch = (index) => { const x = (index % gridSize) + 1; const y = Math.floor(index / gridSize) + 1;
+
+let message = `(${x},${y})`;
+
+if (selections.readMode === "isolated-x") message = `Identity read at x=${x}`;
+if (selections.readMode === "isolated-y") message = `State modulation at y=${y}`;
+if (selections.readMode === "paired") message = `Paired event (${x},${y}) resolves locally`;
+if (selections.readMode === "synthesized") message = `Big Frendly joins x=${x} with y=${y}`;
+
+if (selections.actionLogic === "proposal") message += " • machine interprets gently";
+if (selections.actionLogic === "direct-command") message += " • command lands immediately";
+if (selections.actionLogic === "pass-event") message += " • pass remains available";
+
+setActiveCells((prev) => Array.from(new Set([index, ...prev])).slice(0, 6));
+setLog((prev) => [message, ...prev].slice(0, 6));
+
+};
+
+const handlePass = () => { setPassCount((n) => n + 1); setLog((prev) => [PASS ${passCount + 1} • precedence rotates / state preserved, ...prev].slice(0, 6)); };
+
+return ( <div className="grid gap-4 xl:grid-cols-[1fr_0.85fr]"> <section className="rounded-[28px] border border-white/10 bg-[#171c22]/90 p-4 shadow-2xl"> <div className="mb-4 flex items-center justify-between gap-3"> <div> <div className="font-mono text-xs uppercase tracking-[0.18em] text-white/45">touch layer</div> <h3 className="mt-1 text-xl font-bold text-white">Playable Read Surface</h3> </div> <button
+onClick={handlePass}
+className="rounded-full border border-yellow-300/20 bg-yellow-300/10 px-4 py-2 text-sm font-semibold text-yellow-200 transition hover:bg-yellow-300/15"
+> <PauseCircle className="mr-2 inline h-4 w-4" /> Pass Event </button> </div> <div className="grid grid-cols-5 gap-3"> {Array.from({ length: gridSize * gridSize }).map((_, index) => ( <PlayCell key={index} active={activeCells.includes(index)} label={${(index % gridSize) + 1},${Math.floor(index / gridSize) + 1}} onTouch={() => handleTouch(index)} /> ))} </div> </section>
+
+<section className="rounded-[28px] border border-white/10 bg-[#171c22]/90 p-4 shadow-2xl">
+    <div className="font-mono text-xs uppercase tracking-[0.18em] text-white/45">runtime trace</div>
+    <h3 className="mt-1 text-xl font-bold text-white">Event Log</h3>
+    <div className="mt-4 space-y-3">
+      {log.map((entry, index) => (
+        <motion.div
+          key={`${entry}-${index}`}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="rounded-[18px] border border-white/10 bg-white/[0.03] p-3 text-sm text-white/80"
+        >
+          {entry}
+        </motion.div>
+      ))}
+    </div>
+  </section>
+</div>
+
+); }
+
+export default function HomeOntologyHub() { const [selections, setSelections] = useState(initialSelections); const [view, setView] = useState("hub");
+
+const result = useMemo(() => buildResult(selections), [selections]);
+
+const setSelection = (groupKey, optionId) => { setSelections((prev) => ({ ...prev, [groupKey]: optionId })); };
+
+const reset = () => { setSelections(initialSelections); setView("hub"); };
+
+return ( <div className="min-h-screen bg-[radial-gradient(circle_at_top,_#18202b_0%,_#0d0f12_52%)] text-[#eef3ea]"> <div className="mx-auto w-full max-w-[1200px] px-4 pb-16 pt-6 md:px-6"> <motion.header initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="mb-6 overflow-hidden rounded-[32px] border border-white/10 bg-[#171c22] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.34)] md:p-8" style={{ backgroundImage: "radial-gradient(circle at 12% 20%, rgba(242,140,40,0.18), transparent 28%), radial-gradient(circle at 88% 18%, rgba(121,211,79,0.16), transparent 28%), radial-gradient(circle at 50% 0%, rgba(141,215,255,0.10), transparent 30%), linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))" }} > <div className="font-mono text-xs uppercase tracking-[0.18em] text-white/45">home :: ontology hub :: touch architecture</div> <h1 className="mt-4 max-w-[10ch] text-5xl font-black leading-[0.92] tracking-[-0.08em] md:text-7xl"> <span className="text-[#f28c28]">Space Dad</span> × <span className="text-[#79d34f]">Herman</span> </h1> <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/75 md:text-lg"> Select simple machine-layers. The arrangement does not sit on top of the game as commentary. It decides what the game is, how touch is read, and what kind of result can emerge. </p>
+
+<div className="mt-6 flex flex-wrap gap-2">
+        <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-sm">Touch-first</span>
+        <span className="rounded-full border border-[#f28c28]/30 bg-[#f28c28]/10 px-3 py-2 text-sm text-[#f28c28]">Ontology = Architecture</span>
+        <span className="rounded-full border border-[#79d34f]/30 bg-[#79d34f]/10 px-3 py-2 text-sm text-[#79d34f]">Layer-built game form</span>
+      </div>
+
+      <div className="mt-6 flex flex-wrap gap-3">
+        <button
+          onClick={() => setView(view === "hub" ? "result" : "hub")}
+          className="rounded-[18px] bg-white px-5 py-3 text-base font-semibold text-black transition hover:opacity-90"
+        >
+          {view === "hub" ? <><Play className="mr-2 inline h-5 w-5" />Generate Result</> : <>Back to Layers</>}
+        </button>
+        <button
+          onClick={reset}
+          className="rounded-[18px] border border-white/10 bg-white/[0.03] px-5 py-3 text-base font-semibold text-white transition hover:bg-white/[0.06]"
+        >
+          <RotateCcw className="mr-2 inline h-5 w-5" />Reset
+        </button>
+      </div>
+    </motion.header>
+
+    {view === "hub" ? (
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        {Object.entries(layerGroups).map(([groupKey, group]) => (
+          <LayerCard
+            key={groupKey}
+            groupKey={groupKey}
+            group={group}
+            selection={selections[groupKey]}
+            setSelection={setSelection}
+          />
+        ))}
+      </div>
+    ) : (
+      <div className="grid gap-4">
+        <section className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+          <div className="rounded-[28px] border border-white/10 bg-[#171c22]/90 p-5 shadow-2xl">
+            <div className="mb-4 flex items-center gap-3 text-2xl font-bold md:text-3xl">
+              <Sparkles className="h-7 w-7 text-[#d7df6c]" />
+              Generated Game Result
+            </div>
+            <div className="flex items-center gap-4 rounded-[22px] border border-white/10 bg-white/[0.03] p-5">
+              <div className="rounded-2xl bg-black p-4 text-white">
+                <ResultGlyph geometry={selections.geometry} />
+              </div>
+              <div>
+                <div className="text-xl font-semibold md:text-2xl">{result.title}</div>
+                <div className="mt-1 text-sm text-white/60">A small playable ontology assembled from selected layers.</div>
+              </div>
+            </div>
+
+            <div className="mt-4 grid gap-4 md:grid-cols-3">
+              <div className="rounded-[20px] border border-white/10 bg-white/[0.03] p-4">
+                <div className="mb-2 text-sm font-black uppercase tracking-[0.14em] text-white">Ontology</div>
+                <div className="text-sm leading-relaxed text-white/75">{result.ontologySentence}</div>
+              </div>
+              <div className="rounded-[20px] border border-white/10 bg-white/[0.03] p-4">
+                <div className="mb-2 text-sm font-black uppercase tracking-[0.14em] text-white">Play</div>
+                <div className="text-sm leading-relaxed text-white/75">{result.playSentence}</div>
+              </div>
+              <div className="rounded-[20px] border border-white/10 bg-white/[0.03] p-4">
+                <div className="mb-2 text-sm font-black uppercase tracking-[0.14em] text-white">Aesthetic</div>
+                <div className="text-sm leading-relaxed text-white/75">{result.aestheticSentence}</div>
+              </div>
+            </div>
+
+            <div className="mt-5 border-t border-white/10 pt-5">
+              <div className="mb-3 text-lg font-semibold text-white">Runtime Loop</div>
+              <div className="grid gap-3 md:grid-cols-5">
+                {result.loop.map((step, index) => (
+                  <div key={index} className="rounded-[18px] border border-white/10 bg-white/[0.03] p-4 text-sm text-white/75">
+                    <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">Step {index + 1}</div>
+                    {step}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="grid gap-4">
+            <div className="rounded-[28px] border border-white/10 bg-[#171c22]/90 p-5 shadow-2xl">
+              <div className="mb-2 text-2xl font-bold">Mechanic Seeds</div>
+              <div className="mb-4 text-sm text-white/60">Not finished rules. Just the first hard seeds that this architecture would naturally produce.</div>
+              <div className="space-y-3">
+                {result.mechanicSeeds.map((seed, idx) => (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.04 }}
+                    key={idx}
+                    className="rounded-[18px] border border-white/10 bg-white/[0.03] p-4"
+                  >
+                    <div className="mb-1 font-mono text-[10px] uppercase tracking-[0.16em] text-white/40">Seed {idx + 1}</div>
+                    <div className="text-sm leading-relaxed text-white/80">{seed}</div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+
+            <div className="rounded-[28px] border border-white/10 bg-[#171c22]/90 p-5 shadow-2xl">
+              <div className="mb-3 text-2xl font-bold">Selected Layers</div>
+              <div className="flex flex-wrap gap-2">
+                {Object.entries(selections).map(([key, value]) => {
+                  const option = getSelectedOption(key, value);
+                  return (
+                    <span key={key} className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-white/80">
+                      {layerGroups[key].title}: {option.label}
+                    </span>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <TouchPlayZone selections={selections} />
+      </div>
+    )}
+  </div>
+</div>
+
+); }
