@@ -1,0 +1,14 @@
+<!--
+Lateral Bridges SVG
+Diagram showing lateral connections and cross-book synthesis.
+-->
+<svg width="300" height="120" viewBox="0 0 300 120" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#005577" stroke-width="2" fill="none">
+    <line x1="40" y1="100" x2="260" y2="100"/>
+    <line x1="80" y1="100" x2="80" y2="40"/>
+    <line x1="220" y1="100" x2="220" y2="40"/>
+    <ellipse cx="80" cy="30" rx="20" ry="10"/>
+    <ellipse cx="220" cy="30" rx="20" ry="10"/>
+    <path d="M100,30 Q150,60 200,30"/>
+  </g>
+</svg>

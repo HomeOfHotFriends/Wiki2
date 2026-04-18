@@ -20,3 +20,13 @@ This document tracks all new and changed files, cross-linking, and architectural
 ---
 
 *This file is maintained by the Book Writers Collective. All contributors should update this log with each substantive change.*
+
+---
+
+## 2026-04-18: Seeded Fragments & Architecture
+
+- **Created**: `Recursive-Fragments.md`, `Lateral-Fragments.md`, `Generative-Fragments.md` — initial recursive, lateral, and generative book fragments, each cross-linked using wiki-style `[[Page Name]]` links.
+- **Created**: `INDEX.md` — cross-links all major fragments, tracks emergence of new knowledge, and provides a meta-structure for navigation.
+- **Created**: `Persona-Manifest.md` — documents the evolving cast of writer personas (Lateralist, Generator, Recursor) and their styles.
+- **Cross-linking conventions**: Adopted wiki-style `[[Page Name]]` links for recursive, lateral, and generative navigation.
+- **Architectural proposal**: All new fragments should be added to `INDEX.md` and logged here. Personas should be documented in `Persona-Manifest.md`.
