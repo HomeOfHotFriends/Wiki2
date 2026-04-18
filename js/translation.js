@@ -15,9 +15,24 @@ async function fetchAndTranslate(url, translator) {
 
 // Example translation: creative remix
 function rhizomaticTranslate(input) {
-  // Simulate a creative, rhizomatic translation
+  // Motifs
+  const motifs = [
+    line => `🌱 [Rhizome] ${line.trim()} 🌱`,
+    line => `🧙‍♂️ [Druidic] ${line.trim()} ✨`,
+    line => `🧚 [Fae] ${line.trim()} 🦋`,
+    line => `🔬 [Periodic Table: H] ${line.trim()} [He]`,
+    line => `🎠 [Whimsy] ${line.trim()} 🎩`,
+    line => `🌿 [Rhizomatic] ${line.trim()} 🍄`,
+    line => `🌳 [Druid] ${line.trim()} 🍃`,
+    line => `🧪 [Elemental] ${line.trim()} ⚗️`,
+    line => `🦄 [Fae Whimsy] ${line.trim()} 🧝`,
+    line => `🌈 [Whimsical Rhizome] ${line.trim()} 🌀`
+  ];
   const lines = input.split(/\n|\./).filter(Boolean);
-  return lines.map(line => `🌱 ${line.trim()} 🌱`).join('\n');
+  return lines.map(line => {
+    const motif = motifs[Math.floor(Math.random() * motifs.length)];
+    return motif(line);
+  }).join('\n');
 }
 
 // Example usage:

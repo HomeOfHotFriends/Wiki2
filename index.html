@@ -41,22 +41,31 @@
       }
     }
 
-    function randomWiki() {
-      const url = 'https://en.wikipedia.org/wiki/Special:Random';
-      fetch(url, {redirect: 'follow'})
-        .then(resp => resp.url)
-        .then(finalUrl => {
-          // Use Wikipedia's API to get clean text
-          const title = finalUrl.split('/wiki/')[1];
-          const api = `https://en.wikipedia.org/api/rest_v1/page/plain/${title}`;
-          fetchRhizo(api);
-        });
+    const wikiSeeds = [
+      'Winnie-the-Pooh',
+      'A._A._Milne',
+      'Kurt_Vonnegut',
+      'Postmodernism',
+      'Multi-valued_logic',
+      'Classical_logic',
+      'Rhizome_(philosophy)',
+      'Druid',
+      'Fae',
+      'Whimsy',
+      'Periodic_table'
+    ];
+    let wikiIndex = 0;
+    function seededWiki() {
+      const title = wikiSeeds[wikiIndex % wikiSeeds.length];
+      wikiIndex++;
+      const api = `https://en.wikipedia.org/api/rest_v1/page/plain/${title}`;
+      fetchRhizo(api);
     }
 
     // Auto-populate and fetch on load, then every 30s
     window.addEventListener('DOMContentLoaded', () => {
-      randomWiki();
-      setInterval(randomWiki, 30000);
+      seededWiki();
+      setInterval(seededWiki, 30000);
     });
   </script>
 </body>
