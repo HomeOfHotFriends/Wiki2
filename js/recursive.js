@@ -73,7 +73,21 @@ function rhizomaticTranslate(input) {
         line => `🌳 [Druid] ${line.trim()} 🍃`,
         line => `🧪 [Elemental] ${line.trim()} ⚗️`,
         line => `🦄 [Fae Whimsy] ${line.trim()} 🧝`,
-        line => `🌈 [Whimsical Rhizome] ${line.trim()} 🌀`
+        line => `🌈 [Whimsical Rhizome] ${line.trim()} 🌀`,
+        // More visual/diagrammatic/ASCII/Unicode/SVG/HTML motifs:
+        line => `┏━━━┓\n┃ ${line.trim()} ┃\n┗━━━┛`,
+        line => `⎡${line.trim()}⎤`,
+        line => `<svg width='100' height='20'><text x='0' y='15' font-size='15'>${line.trim()}</text></svg>`,
+        line => `<span style='color:#6a0dad;font-weight:bold;'>✧ ${line.trim()} ✧</span>`,
+        line => `🟩🟨🟦🟥🟧🟪\n${line.trim()}\n🟪🟧🟥🟦🟨🟩`,
+        line => `【${line.trim()}】`,
+        line => `▛▀▀▀▀▀▀▀▀▀▜\n${line.trim()}\n▙▄▄▄▄▄▄▄▄▄▟`,
+        line => `⧉ ${line.trim()} ⧉`,
+        line => `✿ ${line.trim()} ✿`,
+        line => `⟦${line.trim()}⟧`,
+        line => `⧫⧫⧫ ${line.trim()} ⧫⧫⧫`,
+        line => `🖼️ <b>${line.trim()}</b> 🖼️`,
+        line => `<div style='border:2px dashed #bada55;padding:2px;'>${line.trim()}</div>`
     ];
     const lines = input.split(/\n|\./).filter(Boolean);
     return lines.map(line => {

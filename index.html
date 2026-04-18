@@ -18,7 +18,7 @@
   </main>
 
   <script src="js/app.js"></script>
-  <script src="js/translation.js"></script>
+  <script src="js/recursive.js"></script>
   <section id="fetch-panel">
     <h2>Simulated Rhizowiki: Fetch & Translate</h2>
     <input id="fetch-url" type="text" placeholder="Enter public/CC/open source URL" style="width:60%" />
@@ -34,7 +34,7 @@
       const status = document.getElementById('fetch-status');
       status.innerText = 'Fetching and translating...';
       try {
-        const result = await fetchAndTranslate(url, rhizomaticTranslate);
+        const result = await window.fetchAndTranslate(url, window.rhizomaticTranslate);
         document.getElementById('output').innerText = result;
         // Save to localStorage for self-feed
         let rhizoFeed = JSON.parse(localStorage.getItem('rhizoFeed') || '[]');
@@ -71,7 +71,7 @@
           // Pick a random chunk from the feed, remix it
           const chunk = rhizoFeed[Math.floor(Math.random() * rhizoFeed.length)];
           // Re-translate for recursive remix
-          const result = rhizomaticTranslate(chunk);
+          const result = window.rhizomaticTranslate(chunk);
           document.getElementById('output').innerText = result;
           // Save remix back to feed
           rhizoFeed.push(result);
