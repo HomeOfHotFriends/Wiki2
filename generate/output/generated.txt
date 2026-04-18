@@ -1,2 +1,2 @@
-[CS] The marae of computation welcomes all voices. (modularity, recursion, emergence)
--- in the style of a cybernetic poet.
+[CS] The archipelago dreams in code. (modularity, recursion, emergence)
+-- with a voice from the archipelago.
