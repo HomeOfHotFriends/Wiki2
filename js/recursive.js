@@ -28,8 +28,16 @@ class Innovations {
             x => `${x}\n-- as told by a marae elder.`,
             x => `${x}\n-- rendered in recursive code.`,
             x => `${x}\n-- with a voice from the archipelago.`,
-            x => `${x}\n-- as a desiring-machine's manifesto.`
+            x => `${x}\n-- as a desiring-machine's manifesto.`,
+            // Weirdee persona: surreal, playful, visual, odd
+            x => `${x}\n-- as Weirdee would: 🦑✨ "${scramble(x)}" 🦷🌀\n<marquee style='color:#ff69b4;font-size:1.2em;'>${reverseWords(x)}</marquee>`
         ];
+        function scramble(str) {
+            return str.split('').sort(() => Math.random() - 0.5).join('');
+        }
+        function reverseWords(str) {
+            return str.split(' ').reverse().join(' ');
+        }
         return styles[Math.floor(Math.random() * styles.length)](data);
     }
 }
