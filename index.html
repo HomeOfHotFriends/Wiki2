@@ -55,11 +55,39 @@
       'Periodic_table'
     ];
     let wikiIndex = 0;
-    function seededWiki() {
-      const title = wikiSeeds[wikiIndex % wikiSeeds.length];
-      wikiIndex++;
+    let rhizoCurrentTitle = null;
+    async function seededWiki() {
+      let title;
+      if (!rhizoCurrentTitle) {
+        title = wikiSeeds[wikiIndex % wikiSeeds.length];
+        wikiIndex++;
+      } else {
+        title = rhizoCurrentTitle;
+      }
       const api = `https://en.wikipedia.org/api/rest_v1/page/plain/${title}`;
-      fetchRhizo(api);
+      await fetchRhizo(api);
+      // After displaying, fetch links and pick a new one for next round
+      try {
+        const htmlApi = `https://en.wikipedia.org/api/rest_v1/page/html/${title}`;
+        const resp = await fetch(htmlApi);
+        if (resp.ok) {
+          const html = await resp.text();
+          // Extract internal wiki links
+          const links = Array.from(html.matchAll(/href=\"\/wiki\/([^\"#:\?]+)\"/g)).map(m => m[1]);
+          // Filter out unwanted namespaces (File:, Special:, etc)
+          const filtered = links.filter(l => !/^File:|^Special:|^Help:|^Category:|^Wikipedia:|^Portal:|^Template:|^Talk:|^Draft:|^User:/i.test(l));
+          if (filtered.length > 0) {
+            // Pick a random link for next round
+            rhizoCurrentTitle = filtered[Math.floor(Math.random() * filtered.length)];
+          } else {
+            rhizoCurrentTitle = null;
+          }
+        } else {
+          rhizoCurrentTitle = null;
+        }
+      } catch (e) {
+        rhizoCurrentTitle = null;
+      }
     }
 
     // Auto-populate and fetch on load, then every 30s
