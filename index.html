@@ -24,6 +24,7 @@
     <input id="fetch-url" type="text" placeholder="Enter public/CC/open source URL" style="width:60%" />
     <button onclick="fetchRhizo()">Fetch & Translate</button>
     <button onclick="randomWiki()">Random Wikipedia</button>
+    <label style="margin-left:1em"><input type="checkbox" id="self-feed-toggle" checked /> Self-feed mode (mostly internal)</label>
     <div id="fetch-status"></div>
   </section>
   <script>
@@ -35,6 +36,11 @@
       try {
         const result = await fetchAndTranslate(url, rhizomaticTranslate);
         document.getElementById('output').innerText = result;
+        // Save to localStorage for self-feed
+        let rhizoFeed = JSON.parse(localStorage.getItem('rhizoFeed') || '[]');
+        rhizoFeed.push(result);
+        if (rhizoFeed.length > 30) rhizoFeed = rhizoFeed.slice(-30);
+        localStorage.setItem('rhizoFeed', JSON.stringify(rhizoFeed));
         status.innerText = 'Done!';
       } catch (e) {
         status.innerText = 'Error: ' + e.message;
@@ -57,6 +63,26 @@
     let wikiIndex = 0;
     let rhizoCurrentTitle = null;
     async function seededWiki() {
+      const selfFeed = document.getElementById('self-feed-toggle').checked;
+      // 80% chance: self-feed, 20%: wiki
+      if (selfFeed && Math.random() < 0.8) {
+        let rhizoFeed = JSON.parse(localStorage.getItem('rhizoFeed') || '[]');
+        if (rhizoFeed.length > 0) {
+          // Pick a random chunk from the feed, remix it
+          const chunk = rhizoFeed[Math.floor(Math.random() * rhizoFeed.length)];
+          // Re-translate for recursive remix
+          const result = rhizomaticTranslate(chunk);
+          document.getElementById('output').innerText = result;
+          // Save remix back to feed
+          rhizoFeed.push(result);
+          if (rhizoFeed.length > 30) rhizoFeed = rhizoFeed.slice(-30);
+          localStorage.setItem('rhizoFeed', JSON.stringify(rhizoFeed));
+          document.getElementById('fetch-status').innerText = 'Remixed from self-feed!';
+          return;
+        }
+        // If feed empty, fall through to wiki
+      }
+      // Otherwise, pull from Wikipedia as before
       let title;
       if (!rhizoCurrentTitle) {
         title = wikiSeeds[wikiIndex % wikiSeeds.length];
