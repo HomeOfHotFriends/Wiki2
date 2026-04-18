@@ -96,11 +96,14 @@ function rhizomaticTranslate(input) {
     }).join('\n');
 }
 
-// --- Export for browser/global ---
+// --- Export for browser/global and Node.js ---
 if (typeof window !== 'undefined') {
     window.GenerativeSystem = GenerativeSystem;
     window.fetchAndTranslate = fetchAndTranslate;
     window.rhizomaticTranslate = rhizomaticTranslate;
+}
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { GenerativeSystem, fetchAndTranslate, rhizomaticTranslate };
 }
 
 // --- CLI entry point for Node.js ---
