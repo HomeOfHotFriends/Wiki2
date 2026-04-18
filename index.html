@@ -23,11 +23,13 @@
     <h2>Simulated Rhizowiki: Fetch & Translate</h2>
     <input id="fetch-url" type="text" placeholder="Enter public/CC/open source URL" style="width:60%" />
     <button onclick="fetchRhizo()">Fetch & Translate</button>
+    <button onclick="randomWiki()">Random Wikipedia</button>
     <div id="fetch-status"></div>
   </section>
   <script>
-    async function fetchRhizo() {
-      const url = document.getElementById('fetch-url').value;
+    async function fetchRhizo(urlOverride) {
+      const url = urlOverride || document.getElementById('fetch-url').value;
+      document.getElementById('fetch-url').value = url;
       const status = document.getElementById('fetch-status');
       status.innerText = 'Fetching and translating...';
       try {
@@ -38,6 +40,24 @@
         status.innerText = 'Error: ' + e.message;
       }
     }
+
+    function randomWiki() {
+      const url = 'https://en.wikipedia.org/wiki/Special:Random';
+      fetch(url, {redirect: 'follow'})
+        .then(resp => resp.url)
+        .then(finalUrl => {
+          // Use Wikipedia's API to get clean text
+          const title = finalUrl.split('/wiki/')[1];
+          const api = `https://en.wikipedia.org/api/rest_v1/page/plain/${title}`;
+          fetchRhizo(api);
+        });
+    }
+
+    // Auto-populate and fetch on load, then every 30s
+    window.addEventListener('DOMContentLoaded', () => {
+      randomWiki();
+      setInterval(randomWiki, 30000);
+    });
   </script>
 </body>
 </html>
