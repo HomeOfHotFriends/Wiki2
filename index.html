@@ -18,5 +18,26 @@
   </main>
 
   <script src="js/app.js"></script>
+  <script src="js/translation.js"></script>
+  <section id="fetch-panel">
+    <h2>Simulated Rhizowiki: Fetch & Translate</h2>
+    <input id="fetch-url" type="text" placeholder="Enter public/CC/open source URL" style="width:60%" />
+    <button onclick="fetchRhizo()">Fetch & Translate</button>
+    <div id="fetch-status"></div>
+  </section>
+  <script>
+    async function fetchRhizo() {
+      const url = document.getElementById('fetch-url').value;
+      const status = document.getElementById('fetch-status');
+      status.innerText = 'Fetching and translating...';
+      try {
+        const result = await fetchAndTranslate(url, rhizomaticTranslate);
+        document.getElementById('output').innerText = result;
+        status.innerText = 'Done!';
+      } catch (e) {
+        status.innerText = 'Error: ' + e.message;
+      }
+    }
+  </script>
 </body>
 </html>
