@@ -16,6 +16,24 @@ class Innovations {
             ];
             return styles[Math.floor(Math.random() * styles.length)](data);
     }
+
+    // Generates a random, whimsical innovation
+    randomInnovation() {
+        const ideas = [
+            "A self-writing book that edits its own plot twists.",
+            "A coffee mug that refills when you have a good idea.",
+            "Shoes that generate poetry with every step.",
+            "A mirror that gives you daily algorithmic compliments.",
+            "A plant that grows based on your code commit frequency.",
+            "A keyboard that types puns if you pause too long.",
+            "A desk lamp that glows brighter with each innovation.",
+            "A chair that spins when you solve a bug.",
+            "A pen that only writes in rhymes.",
+            "A whiteboard that erases itself when you say 'done'."
+        ];
+        const idx = Math.floor(Math.random() * ideas.length);
+        return `Innovation: ${ideas[idx]}`;
+    }
 }
 
 module.exports = { Innovations };
