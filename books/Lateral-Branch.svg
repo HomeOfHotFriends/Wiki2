@@ -1,0 +1,18 @@
+<!--
+---
+title: "Lateral Branch"
+artist: "Persona: The Lateralist"
+date: 2026-04-18
+type: lateral
+cross_links: ["Rhizomatic-Spiral.svg", "Generative-Seed.mmd"]
+remix_of: []
+---
+-->
+<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <line x1="20" y1="50" x2="180" y2="50" stroke="#008744" stroke-width="4"/>
+    <line x1="100" y1="50" x2="140" y2="20" stroke="#0057e7" stroke-width="3"/>
+    <line x1="100" y1="50" x2="140" y2="80" stroke="#d62d20" stroke-width="3"/>
+    <circle cx="100" cy="50" r="6" fill="#ffa700"/>
+  </g>
+</svg>
