@@ -97,6 +97,21 @@ function rhizomaticTranslate(input) {
 }
 
 // --- Export for browser/global ---
-window.GenerativeSystem = GenerativeSystem;
-window.fetchAndTranslate = fetchAndTranslate;
-window.rhizomaticTranslate = rhizomaticTranslate;
+if (typeof window !== 'undefined') {
+    window.GenerativeSystem = GenerativeSystem;
+    window.fetchAndTranslate = fetchAndTranslate;
+    window.rhizomaticTranslate = rhizomaticTranslate;
+}
+
+// --- CLI entry point for Node.js ---
+if (typeof require !== 'undefined' && require.main === module) {
+    const arg = process.argv[2];
+    if (arg === ':' || arg === 'run' || arg === 'emoji') {
+        const system = new GenerativeSystem();
+        const output = system.run();
+        console.log('\n=== Generative Output ===\n');
+        console.log(output);
+    } else {
+        console.log('Usage: node js/recursive.js :\nRuns the recursive generative system.');
+    }
+}
